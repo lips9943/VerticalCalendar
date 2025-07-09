@@ -47,6 +47,8 @@ extension VECLayout {
                                                                         elementKind: UICollectionView.elementKindSectionHeader,
                                                                         alignment: .top)
         section.boundarySupplementaryItems = [sectionHeader]
-        return UICollectionViewCompositionalLayout(section: section)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        return layout
     }
 }

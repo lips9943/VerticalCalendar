@@ -14,12 +14,21 @@ internal import SnapKit
 })
 
 class HDSViewController: UIViewController {
-    let testView = HorizenSelectedCollector()
+    let testView = HorizenDaysSelection()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .red
         view.addSubview(testView)
-        testView.posision = .top
+        testView.cellBlur = .systemUltraThinMaterialDark
+        testView.isBlurAvailable = false
+        testView.isCellBlurAvailable = true
+        testView.bgColor = .clear
+        testView.cellBGColor = .clear
+        testView.cornerRadius = 8
+        testView.itemDidSelected = { [weak self] date in
+            print(date)
+        }
     }
 }
 #endif

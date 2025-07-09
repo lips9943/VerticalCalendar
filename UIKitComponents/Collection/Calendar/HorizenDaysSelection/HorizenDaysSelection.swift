@@ -9,9 +9,7 @@ import UIKit
 internal import SnapKit
 
 open class HorizenDaysSelection: UIView {
-    public enum Posision {
-        case top, bottom
-    }
+    public enum Posision { case top, bottom }
     
     private let fixedHeight: CGFloat
     private let currentSize: CGSize
@@ -20,10 +18,26 @@ open class HorizenDaysSelection: UIView {
     private(set) var viewModel: HDSViewModel!
     private var blurView: CustomBlurView!
     
+    // MARK: - User's Getter
+    public var view: UICollectionView {
+        return collectionView
+    }
+    
     // MARK: - User
-    public var isBlurAvailable: Bool = true {
+    public var blur: UIBlurEffect.Style = .systemMaterial {
+        didSet { blurView.effect = UIBlurEffect(style: blur)}
+    }
+    public var cellBlur: UIBlurEffect.Style = .systemMaterial {
+        didSet { HDSCollectionViewCell.blur = cellBlur }
+    }
+    public var isBlurAvailable: Bool = false {
         didSet {
-            blurView.isHidden = !isBlurAvailable
+            blurView.isEnable = isBlurAvailable
+        }
+    }
+    public var isCellBlurAvailable: Bool = true {
+        didSet {
+            HDSCollectionViewCell.isBlurAvailable = isCellBlurAvailable
         }
     }
     public var posision: Posision = .bottom {
@@ -52,7 +66,7 @@ open class HorizenDaysSelection: UIView {
             self.backgroundColor = bgColor
         }
     }
-    public var cellBGColor: UIColor = .white {
+    public var cellBGColor: UIColor = .clear {
         didSet { HDSCollectionViewCell.bgColor = cellBGColor }
     }
     public var dayFontColor: UIColor = .label {
@@ -67,9 +81,13 @@ open class HorizenDaysSelection: UIView {
     public var cornerRadius: CGFloat = 8 {
         didSet { HDSCollectionViewCell.cornerRadius = cornerRadius }
     }
+    public var cellAlpha: CGFloat = 1 {
+        didSet { HDSCollectionViewCell.alpha = cellAlpha }
+    }
     public var betweenCellLineSpacing: CGFloat = 4 {
         didSet { collectionView.layout?.minimumLineSpacing = betweenCellLineSpacing }
     }
+    public var itemDidSelected: ((Date) -> Void)?
     
     public init() {
         let screenBounds = UIScreen.main.bounds
@@ -86,6 +104,7 @@ open class HorizenDaysSelection: UIView {
         setUp()
         blurViewSetUp()
         tableSetUp()
+        setScrollToTodayCell()
     }
     
     required public init?(coder: NSCoder) {
@@ -99,6 +118,7 @@ open class HorizenDaysSelection: UIView {
     }
     
     private func blurViewSetUp() {
+        blurView.isEnable = false
         addSubview(blurView)
         blurView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -107,9 +127,17 @@ open class HorizenDaysSelection: UIView {
     
     private func tableSetUp() {
         collectionView.dataSource = self
+        collectionView.delegate = self
         blurView.contentView.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+    }
+    
+    private func setScrollToTodayCell() {
+        guard let indexPath = viewModel.getIndexPathForToday() else { return }
+        DispatchQueue.main.async {
+            self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
         }
     }
 }

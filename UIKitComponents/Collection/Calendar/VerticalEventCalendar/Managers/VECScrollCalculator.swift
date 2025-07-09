@@ -58,5 +58,23 @@ struct VECScrollCalculator {
         //
         return (offset.y + totalSectionHeight)
     }
+}
+
+extension VECScrollCalculator {
+    private func findSectionIndex(by date: Date, _ calendars: [VECSection]) -> Int {
+        let index = calendars.firstIndex { section in
+            let sectionDate = section.month.date
+            return sectionDate.year == date.year && sectionDate.month == date.month
+        }.map { Int($0) }
+        guard let index, index >= 0 else { return 0 }
+        return index
+    }
     
+    private func findCellIndex(by date: Date, _ calendar: VECSection) -> Int {
+        let index = calendar.days.firstIndex { day in
+            day.date.compare(.isSameDay(date))
+        }
+        guard let index, index >= 0 else { return 0 }
+        return index
+    }
 }

@@ -5,7 +5,7 @@
 //  Created by 고혁준 on 6/13/25.
 //
 
-struct HSCDayModel {
+struct HDSDayModel {
     let date: Date
     
     var day: Int { date.day }

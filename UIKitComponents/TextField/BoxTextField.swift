@@ -8,7 +8,6 @@
 
 import UIKit
 internal import SnapKit
-internal import RxSwift
 internal import Then
 
 public protocol BoxTextFieldDelegate {
@@ -52,7 +51,6 @@ public class BoxTextField: UIView {
     
     // MARK: - Private Properties
     private var isAnimationEnabled: Bool = false
-    private let disposeBag = DisposeBag()
     
     // MARK: - Title Label
     private let placeholderLabel = UILabel().then { l in
@@ -219,17 +217,17 @@ public extension BoxTextFieldDelegate {
     }
 }
 
-
-#if DEBUG
-#Preview(traits: .defaultLayout, body: {
-    let tf = BoxTextField()
-    
-//    tf.delegate = TestBoxTextFieldDelegate()
-    return tf
-})
-
-class TestBoxTextFieldDelegate: BoxTextFieldDelegate {
-    
-}
-#endif
-
+//
+//#if DEBUG
+//#Preview(traits: .defaultLayout, body: {
+//    let tf = BoxTextField()
+//    
+////    tf.delegate = TestBoxTextFieldDelegate()
+//    return tf
+//})
+//
+//class TestBoxTextFieldDelegate: BoxTextFieldDelegate {
+//    
+//}
+//#endif
+//

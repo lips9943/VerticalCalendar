@@ -35,7 +35,7 @@ open class SegmentTabBarController: UIViewController {
         didSet { navigationItem.leftBarButtonItem = navigationLeftItem }
     }
     
-    // MARK: -
+    // MARK: - 
     public var selectedIndex: Int {
         segmentControl.selectedSegmentIndex
     }
@@ -183,7 +183,6 @@ open class SegmentTabBarController: UIViewController {
             // 현재 ViewController 업데이트
             currentViewController = selectedViewController
         }
-        
     }
 }
 

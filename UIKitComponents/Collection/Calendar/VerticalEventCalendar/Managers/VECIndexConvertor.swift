@@ -27,7 +27,9 @@ struct VECIndexConvertor {
         return IndexSet(integer: lastIndexInCalendars)
     }
     
-    func todayIndexPath(in calendars: [VECSection], date: Date = Date()) -> IndexPath? {
+    
+    func getMonthIndexPath(in calendars: [VECSection], by date: Date = Date(), setLastWeekOfPrevMonth: Bool = true) -> IndexPath? {
+        var indexPath: IndexPath
         let index = calendars
             .map { $0.month }
             .map { $0.date }
@@ -36,12 +38,54 @@ struct VECIndexConvertor {
                 return Int(index)
             }
         
-        guard let index, index != 0 else { return nil }
+        guard let index, index >= 0 else { return nil }
         let dayIndex = calendars[index - 1]
         
-        let indexPath = IndexPath(row: dayIndex.days.count - 1, section: index - 1)
+        if setLastWeekOfPrevMonth {
+            indexPath = IndexPath(row: dayIndex.days.count - 1, section: index - 1)
+        } else {
+            indexPath = IndexPath(row: 0, section: index)
+        }
         
         return indexPath
+    }
+    
+    func getIndexPath(in calendars: [VECSection], by date: Date = Date(), setLastWeekOfDate: Bool = true) -> IndexPath? {
+        var indexPath: IndexPath
+        let monthIndex = findSectionIndex(by: date, calendars)
+        let dayIndex = findCellIndex(by: date, calendars[monthIndex])
+        
+        guard monthIndex < 0, dayIndex < 0 else { return nil }
+        
+        if setLastWeekOfDate {
+            if dayIndex < 7 {
+                let lastMonth = calendars[monthIndex - 1]
+                indexPath = IndexPath(item: lastMonth.days.count - 1, section: monthIndex - 1)
+            } else {
+                indexPath = IndexPath(item: dayIndex - 7, section: monthIndex)
+            }
+        } else {
+            indexPath = IndexPath(item: dayIndex, section: monthIndex)
+        }
+        
+        return indexPath
+    }
+    
+    private func findSectionIndex(by date: Date, _ calendars: [VECSection]) -> Int {
+        let index = calendars.firstIndex { section in
+            let sectionDate = section.month.date
+            return sectionDate.year == date.year && sectionDate.month == date.month
+        }.map { Int($0) }
+        guard let index, index >= 0 else { return 0 }
+        return index
+    }
+    
+    private func findCellIndex(by date: Date, _ calendar: VECSection) -> Int {
+        let index = calendar.days.firstIndex { day in
+            day.date.compare(.isSameDay(date))
+        }
+        guard let index, index >= 0 else { return 0 }
+        return index
     }
 }
 

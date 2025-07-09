@@ -25,22 +25,15 @@ class VECViewModel {
     var calendars: [VECSection] = []
     var events: [VECEvent] = []
     
-    init(startDate: Date) {
+    init(startDate: Date, events: [VECEvent]) {
         self.startDate = startDate
-        let now = Date.now
-        var newCalendars: [VECSection] = .init()
-        let difference = startDate.difference(in: .month, from: now) ?? 10
-        var currentDate = startDate
-        for _ in 0..<difference + 3 {
-            newCalendars.append(dateCreator.generateCalendarByDate(currentDate))
-            currentDate = currentDate.dateAt(.nextMonth)
-        }
+        var newCalendars = setDefaultCalendars(startDate: startDate)
         
 
-        var newEvents = eventManager.test()
+        var newEvents = events
         
         eventManager.calculateEventLayoutPositions(events: &newEvents)
-        events = newEvents
+        self.events = newEvents
         
         for (index, calendar) in newCalendars.enumerated() {
             let filteredEvent = eventManager.findEventsAtMonth(events, month: calendar.month.date)
@@ -51,12 +44,28 @@ class VECViewModel {
         calendars = newCalendars
     }
     
+    private func setDefaultCalendars(startDate: Date) -> [VECSection] {
+        let now = Date.now
+        var newCalendars: [VECSection] = .init()
+        let difference = startDate.difference(in: .month, from: now) ?? 10
+        var currentDate = startDate
+        for _ in 0..<difference + 3 {
+            newCalendars.append(dateCreator.generateCalendarByDate(currentDate))
+            currentDate = currentDate.dateAt(.nextMonth)
+        }
+        
+        return newCalendars
+    }
 }
 
 // MARK: - Scrolling
 extension VECViewModel {
-    func findTodaysIndexPath() -> IndexPath? {
-        return indexConvertor.todayIndexPath(in: calendars)
+    func findMonthIndexPath(by date: Date, setPrev: Bool) -> IndexPath? {
+        return indexConvertor.getMonthIndexPath(in: calendars, by: date, setLastWeekOfPrevMonth: setPrev)
+    }
+    
+    func findCellIndexPath(by date: Date, setPrev: Bool) -> IndexPath? {
+        return indexConvertor.getIndexPath(in: calendars, by: date, setLastWeekOfDate: setPrev)
     }
     
     func activateBottomInfiniteScroll(positionData: VECPositions) -> IndexSet? {
@@ -120,10 +129,10 @@ extension VECViewModel {
         isEditing = false
     }
     
-    func deleteEvent(id: UUID) -> [IndexPath]? {
+    func deleteEvent(id: String) -> [IndexPath]? {
         // id에 해당되는 이벤트를 지우고, Location과 순서를 재설정합니다.
         var newEvents = events
-        let eventIndex = newEvents.firstIndex { $0.id == id }
+        let eventIndex = newEvents.firstIndex { $0.ekEventID == id }
         guard let eventIndex else { return nil }
         let event = newEvents.remove(at: eventIndex)
         eventManager.calculateEventLayoutPositions(events: &newEvents)

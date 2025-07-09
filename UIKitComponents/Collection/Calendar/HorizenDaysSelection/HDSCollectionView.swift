@@ -8,8 +8,11 @@
 import UIKit
 
 class HDSCollectionView: UICollectionView {
+    var layout: UICollectionViewFlowLayout?
+    
     init(layout: UICollectionViewLayout) {
         super.init(frame: .zero, collectionViewLayout: layout)
+        self.layout = layout as? UICollectionViewFlowLayout
         setUp()
     }
     
@@ -21,7 +24,7 @@ class HDSCollectionView: UICollectionView {
         backgroundColor = .clear
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
-        register(HSCCollectionViewCell.self,
-                 forCellWithReuseIdentifier: HSCCollectionViewCell.identifier)
+        register(HDSCollectionViewCell.self,
+                 forCellWithReuseIdentifier: HDSCollectionViewCell.identifier)
     }
 }

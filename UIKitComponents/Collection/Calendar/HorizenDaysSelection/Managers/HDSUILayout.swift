@@ -14,6 +14,7 @@ struct HDSUILayout {
         
         layout.minimumLineSpacing = 4
         layout.scrollDirection = .horizontal
+        
         return layout
     }
 }

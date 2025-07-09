@@ -9,33 +9,37 @@ internal import SwiftDate
 
 struct VECEvent: Equatable, Hashable {
     let id: UUID
+    var ekEventID: String
     var title: String
     var startDate: Date
     var endDate: Date
+    var calendar: String
     var isAllDay: Bool = true
     var locationNumber: Int = -1
     var locationNumbers: [Int] = []
     var color: UIColor
     
-    init(id: UUID = UUID(), title: String, startDate: Date, endDate: Date, color: UIColor = .systemOrange.withAlphaComponent(0.9), isAllDay: Bool = true) {
+    init(id: UUID = UUID(), ekEventID: String = "", title: String, startDate: Date, endDate: Date, calendar: String = "", color: UIColor = .systemOrange.withAlphaComponent(0.9), isAllDay: Bool = true) {
         self.id = id
+        self.ekEventID = ekEventID
         self.title = title
         self.startDate = startDate
         self.endDate = endDate
+        self.calendar = calendar
         self.color = color
         self.isAllDay = isAllDay
     }
     
     init(event: Event) {
-        self.id = event.id
+        self.id = UUID()
+        self.ekEventID = event.id
         self.title = event.title
         self.startDate = event.startDate
         self.endDate = event.endDate
+        self.calendar = event.calendar
         self.color = event.color
         self.isAllDay = event.isAllDay
     }
-    
-    
     
     var dateLangth: Int? { startDate.difference(in: .day, from: endDate) }
     var startOfDay: Date { startDate.dateAt(.startOfDay) }
@@ -210,4 +214,11 @@ extension VECEvent {
 // MARK: - Makes Event Follow To UIs
 extension VECEvent {
     
+}
+
+// MARK: - Static Functions
+extension VECEvent {
+    static func convert(from events: [Event]) -> [VECEvent] {
+        events.map { VECEvent(event: $0) }
+    }
 }

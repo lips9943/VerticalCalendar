@@ -6,15 +6,20 @@
 //
 
 class HDSViewModel {
-    let dateManager: HSCDateManager!
-    let convertManager: HSCConvertManager!
-    let layoutManager: HSCUILayout!
-    var days: [HSCDayModel] = []
+    let dateManager: HDSDateManager!
+    let convertManager: HDSConvertManager!
+    let layoutManager: HDSUILayout!
+    
+    var days: [HDSDayModel] = []
     
     init() {
-        dateManager = HSCDateManager()
-        convertManager = HSCConvertManager()
-        layoutManager = HSCUILayout()
+        dateManager = HDSDateManager()
+        convertManager = HDSConvertManager()
+        layoutManager = HDSUILayout()
         days = convertManager.convertToModel(in: dateManager.generateDays())
+    }
+    
+    func getIndexPathForToday() -> IndexPath? {
+        return convertManager.convertToIndexPath(in: days)
     }
 }

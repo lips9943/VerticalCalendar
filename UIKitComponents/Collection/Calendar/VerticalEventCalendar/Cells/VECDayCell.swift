@@ -24,6 +24,7 @@ final class VECDayCell: UICollectionViewCell {
     static var cellBorderColor: UIColor = .systemGray6
     static var todayCellColor: UIColor = .systemRed.withAlphaComponent(0.1)
     static var todayLabelColor: UIColor = .white
+    static var topBorderThickness: CGFloat = 1
     
     static var isEventClicked: Bool = false
     
@@ -87,12 +88,12 @@ final class VECDayCell: UICollectionViewCell {
     private func setUP() {
         topBorder.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(1)
+            make.height.equalTo(VECDayCell.topBorderThickness)
         }
         
         dayLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview()
+            make.top.equalTo(topBorder.snp.bottom)
             make.width.equalToSuperview()
             make.height.equalTo(30)
         }
@@ -277,10 +278,10 @@ extension VECDayCell {
             // 이벤트가 여러 날에 걸쳐 있는 경우 너비 조정
             if multiple > 1.0 {
                 // 셀 너비의 multiple 배로 설정
-                make.width.equalTo(contentView.snp.width).multipliedBy(multiple).inset(1)
+                make.width.equalTo(contentView.snp.width).multipliedBy(multiple).inset(1 / multiple)
             } else {
                 // 일반 이벤트는 셀 너비와 동일하게
-                make.trailing.equalTo(contentView)
+                make.trailing.equalTo(contentView).inset(1)
             }
         }
     }

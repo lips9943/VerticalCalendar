@@ -168,17 +168,17 @@ extension UnderBarTextFieldDelegate {
         return true
     }
 }
-
-
-#if DEBUG
-#Preview(traits: .defaultLayout, body: {
-    let tf = UnderBarTextField()
-    tf.delegate = TestDelegate()
-    return tf
-})
-
-class TestDelegate: UnderBarTextFieldDelegate {
-    
-}
-#endif
-
+//
+//
+//#if DEBUG
+//#Preview(traits: .defaultLayout, body: {
+//    let tf = UnderBarTextField()
+//    tf.delegate = TestDelegate()
+//    return tf
+//})
+//
+//class TestDelegate: UnderBarTextFieldDelegate {
+//    
+//}
+//#endif
+//
