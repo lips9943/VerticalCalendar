@@ -12,13 +12,12 @@ public protocol VECDelegate {
     func onEventTapped(event: Event)
 }
 
-open class VEC: UIView {
+open class VerticalEventCalendar: UIView {
     private(set) var viewModel: VECViewModel!
     private(set) var collectionView: VECCollectionView!
     private(set) var topWeekDayView: VECTopWeekDayView!
     private(set) var topYearView: VECTopYearView!
     private(set) var layout: VECLayout!
-    private(set) var indexPath: IndexPath?
     
     public var delegate: VECDelegate?
     
@@ -69,10 +68,12 @@ open class VEC: UIView {
         didSet { VECDayCell.topBorderThickness = topBorderThickness }
     }
     
-    public init(startDate: Date = Date(), events: [Event]) {
+    public init(startDate: Date = Date()) {
         layout = VECLayout()
-        viewModel = VECViewModel(startDate: startDate, events: VECEvent.convert(from: events))
         collectionView = VECCollectionView()
+        viewModel = VECViewModel(
+            collectionView: collectionView,
+            startDate: startDate)
         topWeekDayView = VECTopWeekDayView()
         topYearView = VECTopYearView()
         
@@ -114,35 +115,43 @@ open class VEC: UIView {
             make.leading.equalToSuperview().inset(20)
         }
     }
-    
-    public func scrollToCurrentIndexPath(animated: Bool = false) {
-        guard let indexPath else { return }
-        self.collectionView.scrollToItem(at: indexPath, at: .top, animated: animated)
-    }
 }
 
 // MARK: - IndexPath
-extension VEC {
-    public func setOffsetToCurrentMonthSection(setToLastWeekOfPrevMonth: Bool = true) {
-        guard let indexPath = viewModel.findMonthIndexPath(by: Date.now, setPrev: setToLastWeekOfPrevMonth) else { return }
-        self.indexPath = indexPath
+extension VerticalEventCalendar {
+    public func moveScrollToCurrentMonthSection(setToLastWeekOfPrevMonth: Bool = true) {
+        Task {
+            await viewModel.moveScrollToCurrentMonthSection(by: Date.now, setPrev: setToLastWeekOfPrevMonth)
+        }
     }
     
-    public func setOffsetToCurrentDateCell(setToPrevWeek: Bool = true) {
-        guard let indexPath = viewModel.findCellIndexPath(by: Date.now, setPrev: setToPrevWeek) else { return }
-        self.indexPath = indexPath
+    public func moveScrollToCurrentDateCell(setToPrevWeek: Bool = true) {
+        Task {
+            await viewModel.moveScrollToCurrentDateCell(by: Date.now, setPrev: setToPrevWeek)
+        }
+        
     }
 }
 
 // MARK: - Event Handling
-extension VEC {
-    public func addEvent(event: Event) {
-        
-        viewModel.addEvent(event: event, collectionView: collectionView)
+extension VerticalEventCalendar {
+    public func add(event: Event) {
+        Task {
+            await viewModel.add(event: event)
+        }
     }
-    public func deleteEvent(id: String) {
-        guard let indexPaths = viewModel.deleteEvent(id: id) else { return }
-        collectionView.reloadItems(at: indexPaths)
+    public func add(events: [Event]) {
+        Task {
+            await viewModel.add(events: events)
+        }
+    }
+    public func deleteEvent(by id: String) {
+        Task {
+            guard let indexPaths = await viewModel.deleteEvent(by: id) else { return }
+            DispatchQueue.main.async {
+                self.collectionView.reloadItems(at: indexPaths)
+            }
+        }
     }
 }
 

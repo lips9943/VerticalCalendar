@@ -6,7 +6,7 @@
 //
 internal import SwiftDate
 
-struct VECSectionOrganizer {
+actor VECSectionOrganizer {
     /// 이벤트를 섹션 안에 삽입합니다.
     /// - 이 Function은 Day안에 존재하는 이벤트를 모두 리셋하고 다시 넣습니다.
     /// - Parameters:
