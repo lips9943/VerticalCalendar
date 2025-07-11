@@ -7,7 +7,7 @@
 import DSA
 internal import SwiftDate
 
-struct VECIndexConvertor {
+actor VECIndexConvertor {
     func lastSectionIntoIndexSetAndPath(calendars: [VECSection]) throws -> VECSectionIndex {
         let lastIndexInCalendars = calendars.count - 1
         
@@ -55,7 +55,7 @@ struct VECIndexConvertor {
         let monthIndex = findSectionIndex(by: date, calendars)
         let dayIndex = findCellIndex(by: date, calendars[monthIndex])
         
-        guard monthIndex < 0, dayIndex < 0 else { return nil }
+        guard monthIndex >= 0, dayIndex >= 0 else { return nil }
         
         if setLastWeekOfDate {
             if dayIndex < 7 {

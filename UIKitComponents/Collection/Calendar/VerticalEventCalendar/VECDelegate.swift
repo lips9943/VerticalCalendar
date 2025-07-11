@@ -8,7 +8,7 @@
 import UIKit
 import DSA
 
-extension VEC: UICollectionViewDelegate {
+extension VerticalEventCalendar: UICollectionViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         con()
         if isStarted {
@@ -22,7 +22,7 @@ extension VEC: UICollectionViewDelegate {
 }
 
 // MARK: - Year View Configuration
-extension VEC {
+extension VerticalEventCalendar {
     private func con() {
         let offsetY = collectionView.contentOffset.y
         guard let layout = collectionView.collectionViewLayout as? UICollectionViewCompositionalLayout,
@@ -50,17 +50,17 @@ extension VEC {
 }
 
 // MARK: - Infinite Scroll Function
-extension VEC {
+extension VerticalEventCalendar {
     private func infiniteScroll() {
         let positions = VECPositions(collectionView: collectionView)
         
         UIView.setAnimationsEnabled(false)
         
         collectionView.performBatchUpdates {
-            
-            guard let indexSet = viewModel.activateBottomInfiniteScroll(positionData: positions) else { return }
-            
-            self.collectionView.insertSections(indexSet)
+            Task {
+                guard let indexSet = await viewModel.activateBottomInfiniteScroll(positionData: positions) else { return }
+                self.collectionView.insertSections(indexSet)
+            }
         } completion: { _ in
             
             self.viewModel.deactivate(after: 0.2)

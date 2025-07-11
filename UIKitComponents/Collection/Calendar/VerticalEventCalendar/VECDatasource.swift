@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension VEC: UICollectionViewDataSource {
+extension VerticalEventCalendar: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.calendars[section].days.count
@@ -36,7 +36,7 @@ extension VEC: UICollectionViewDataSource {
     }
 }
 
-extension VEC: VECDayCellDelegate {
+extension VerticalEventCalendar: VECDayCellDelegate {
     func didEventTap(event: VECEvent) {
         delegate?.onEventTapped(event: Event.invert(event))
     }
