@@ -25,13 +25,4 @@ final class UIKitComponentsTests: XCTestCase {
         // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
     }
-
-    func testPerformanceExample() throws {
-        let manager = VerticalEventCalendarDataManager()
-        manager.initialSections()
-        manager.datas.bind { sections in
-            
-        }
-        
-    }
 }
