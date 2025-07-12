@@ -7,14 +7,14 @@
 //
 import UIKit
 internal import SnapKit
-internal import RxFlow
 
 @available(iOS 14.0, *)
-public class SegmentViewController: UIViewController {
+class SegmentViewController: UIViewController {
     private let control: UISegmentedControl
+    private let tabs: [SegmentTab]
     private let startIndex: Int
     private var prevIndex: Int?
-    private var currentLocation: SegmentLocation = .top
+    private var currentLocation: SegmentTabBarNavigationController.SegmentLocation = .top
     private var currentViewController: UIViewController! {
         didSet {
             if let oldValue {
@@ -32,15 +32,15 @@ public class SegmentViewController: UIViewController {
             }
         }
     }
-
-    var tabs: [SegmentTab]
     
-    // MARK: - Public Properties
-    public enum SegmentLocation {
-        case bottom
-        case top
-    }
-    public var changeColorEachTabBySelect: Bool = false {
+    // MARK: - Bool Value By Active During Functions
+    private var isSwichingVC: Bool = false
+    private var isChangingLocation: Bool = false
+    
+    var currentIndex: Int { control.selectedSegmentIndex }
+    
+    var delegate: SegmentTabBarDelegate?
+    var changeColorEachTabBySelect: Bool = false {
         didSet {
             if changeColorEachTabBySelect {
                 DispatchQueue.main.async {
@@ -50,7 +50,7 @@ public class SegmentViewController: UIViewController {
             }
         }
     }
-    public var selectedSegmentTintColor: UIColor = .white {
+    var selectedSegmentTintColor: UIColor = .white {
         didSet {
             if !changeColorEachTabBySelect {
                 control.selectedSegmentTintColor = selectedSegmentTintColor
@@ -58,17 +58,16 @@ public class SegmentViewController: UIViewController {
 
         }
     }
-    public var controlBackgroundColor: UIColor? {
+    var controlBackgroundColor: UIColor? {
         didSet {
             control.backgroundColor = controlBackgroundColor
         }
     }
-    public init(tabs: [SegmentTab], startIndex: Int) {
-        assert(!tabs.isEmpty, "tabs must not be empty.")
-        assert(startIndex >= 0 && startIndex < tabs.count, "startIndex must be in range of tabs.")
-        assert(tabs.count <= 4, "SegmentTabBar can not have more than 4 tabs.")
+    
+    init(tabs: [SegmentTab], startIndex: Int) {
         self.tabs = tabs
         self.startIndex = startIndex
+        self.prevIndex = startIndex
         self.control = UISegmentedControl()
         super.init(nibName: nil, bundle: nil)
     }
@@ -76,14 +75,16 @@ public class SegmentViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         configureControl()
         view.backgroundColor = .clear
     }
 
-    public func changeLocationOfSegment(to location: SegmentLocation) {
-        guard currentLocation != location else { return }
+    func changeLocationOfSegment(to location: SegmentTabBarNavigationController.SegmentLocation) {
+        guard currentLocation != location, !isChangingLocation else { return }
+        currentLocation = location
+        isChangingLocation = true
         DispatchQueue.main.async {
             switch location {
             case .top:
@@ -92,6 +93,7 @@ public class SegmentViewController: UIViewController {
                     make.leading.trailing.equalToSuperview().inset(22)
                     make.height.equalTo(UIScreen.main.bounds.height / 23.5)
                 }
+                self.isChangingLocation = false
                 break
             case .bottom:
                 self.control.snp.remakeConstraints { make in
@@ -99,6 +101,7 @@ public class SegmentViewController: UIViewController {
                     make.leading.trailing.equalToSuperview().inset(22)
                     make.height.equalTo(UIScreen.main.bounds.height / 23.5)
                 }
+                self.isChangingLocation = false
                 break
             }
         }
@@ -106,7 +109,7 @@ public class SegmentViewController: UIViewController {
 }
 
 // MARK: - UISegmentControl Configure
-extension SegmentViewController {
+extension SegmentViewController: TabBarChangingImageBySelect {
     private func configureControl() {
         configureViewAndLayout()
         configureTabs()
@@ -148,8 +151,10 @@ extension SegmentViewController {
                 identifier: tab.identifier,
                 attributes: tab.attributes,
                 state: tab.state
-            ) { action in
-                self.imageChangeBySelection(tab: tab)
+            ) { [weak self] action in
+                guard let self, !isSwichingVC else { return }
+                self.isSwichingVC = true
+                self.imageChangeBySelection()
 
                 if self.changeColorEachTabBySelect {
                     self.control.selectedSegmentTintColor = tab.color
@@ -160,23 +165,53 @@ extension SegmentViewController {
                 {
                     self.control.setImage(selectedImage, forSegmentAt: index)
                 }
-
+                
+                
                 self.prevIndex = index
                 self.currentViewController = self.tabs[index].viewController
+                self.delegate?.segmentTabBar(didSelectedSegmentAt: index)
+                self.isSwichingVC = false
             }
 
             control.insertSegment(action: action, at: index, animated: true)
         }
     }
 
-    private func imageChangeBySelection(tab: SegmentTab) {
+    func imageChangeBySelection() {
         guard let prevIndex = self.prevIndex else { return }
         if let image = self.tabs[prevIndex].image {
-            self.control.setImage(image, forSegmentAt: prevIndex)
+            DispatchQueue.main.async {
+                self.control.setImage(image, forSegmentAt: prevIndex)
+            }
         }
     }
 
     private func configureCurrentViewController() {
         self.currentViewController = tabs[startIndex].viewController
+    }
+    
+    func goToSegment(at index: Int) {
+        self.isSwichingVC = true
+        let tab = tabs[index]
+        
+        DispatchQueue.main.async {
+            self.imageChangeBySelection()
+            
+            if self.changeColorEachTabBySelect {
+                self.control.selectedSegmentTintColor = tab.color
+            }
+            
+            if let selectedImage = tab.selectedImage,
+                self.control.selectedSegmentIndex == index
+            {
+                self.control.setImage(selectedImage, forSegmentAt: index)
+            }
+            
+            self.prevIndex = index
+            self.currentViewController = self.tabs[index].viewController
+            self.delegate?.segmentTabBar(didSelectedSegmentAt: index)
+            self.control.selectedSegmentIndex = index
+            self.isSwichingVC = false
+        }
     }
 }
