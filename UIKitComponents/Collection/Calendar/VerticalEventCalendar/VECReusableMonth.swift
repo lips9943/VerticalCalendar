@@ -50,6 +50,7 @@ class VECReusableMonth: UICollectionReusableView {
         }
     }
     /// Month 모델을 받아 해당 달의 1일의 요일 슬롯에 "\(month.month)월" 텍스트를 표시합니다.
+    // - TODO: Locale을 받아 여러 나라들의 포멧으로 된 월을 표기.
     func update(with month: VECMonth) {
         slotLabels[month.date.weekday - 1].text = "\(month.date.month)월"
     }

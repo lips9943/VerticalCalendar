@@ -18,6 +18,7 @@ open class VerticalEventCalendar: UIView {
     private(set) var topWeekDayView: VECTopWeekDayView!
     private(set) var topYearView: VECTopYearView!
     private(set) var layout: VECLayout!
+    private(set) var locale: Locale!
     
     public var delegate: VECDelegate?
     
@@ -68,13 +69,13 @@ open class VerticalEventCalendar: UIView {
         didSet { VECDayCell.topBorderThickness = topBorderThickness }
     }
     
-    public init(startDate: Date = Date()) {
+    public init(startDate: Date = Date(), locale: Locale = Locale.current) {
         layout = VECLayout()
         collectionView = VECCollectionView()
         viewModel = VECViewModel(
             collectionView: collectionView,
             startDate: startDate)
-        topWeekDayView = VECTopWeekDayView()
+        topWeekDayView = VECTopWeekDayView(locale: locale)
         topYearView = VECTopYearView()
         
         super.init(frame: .zero)
