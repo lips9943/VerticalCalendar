@@ -10,7 +10,7 @@ internal import SwiftDate
 actor VECEventManager {
     /// 파라미터 Date를 받아와 속해 있는 달에 이벤트를 골라내어 반환합니다.
     /// startDate와 endDate 둘 중 하나라도 속해있다면 포함됩니다.
-    func findEventsAtMonth(_ events: [VECEvent], month: Date) -> [VECEvent] {
+    func filter(events: [VECEvent], at month: Date) -> [VECEvent] {
         var filteredEvents: [VECEvent] = []
         
         for event in events {

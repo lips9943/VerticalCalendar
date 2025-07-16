@@ -71,34 +71,76 @@ extension VECViewModel {
     
     func activateBottomInfiniteScroll(positionData: VECPositions) async -> IndexSet? {
         isActivateInfiniteScroll = true
-        var calendars = self.calendars
-        guard scrollCalculator.isOffsetYAtBottomEdge(positionData: positionData) else { return nil }
-        await appendCalendar(&calendars)
-        guard let mainIndex = try? await indexConvertor.lastSectionIntoIndexSet(calendars: calendars) else { return nil }
-        self.calendars = calendars
-        return mainIndex
+        await UIView.setAnimationsEnabled(false)
+        
+        
+        await self.collectionView.performBatchUpdates {
+            var calendars = self.calendars
+            guard scrollCalculator.isOffsetYAtBottomEdge(positionData: positionData) else { return }
+            Task {
+                let section = await appendCalendar(&calendars)
+                guard let mainIndex = try? await indexConvertor.lastSectionIntoIndexSet(calendars: calendars) else { return }
+                self.calendars = calendars
+                DispatchQueue.main.async {
+                    self.collectionView.insertSections(mainIndex)
+                }
+                
+                self.deactivate(after: 0.15)
+                await UIView.setAnimationsEnabled(true)
+                await put(events: self.events, in: section)
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadSections(mainIndex)
+                }
+                
+            }
+        }
+//
+//        var calendars = self.calendars
+//        guard scrollCalculator.isOffsetYAtBottomEdge(positionData: positionData) else { return nil }
+//        let section = await appendCalendar(&calendars)
+//        guard let mainIndex = try? await indexConvertor.lastSectionIntoIndexSet(calendars: calendars) else { return nil }
+//        
+//        Task {
+//            await put(events: self.events, in: section)
+//        }
+//        return mainIndex
+        return nil
     }
 }
 
 // MARK: - CRUD For Calendars
 extension VECViewModel {
-    private func appendCalendar(_ calendars: inout [VECSection]) async {
-        let section = dateCreator.generateCalendarByDate(calendars[calendars.count - 1].month.date.dateAt(.nextMonth))
-        let newCalendar = await sectionOrganizer.applyEventsOnEachDay(events: events, section: section)
-        calendars.append(newCalendar)
+    private func appendCalendar(_ calendars: inout [VECSection]) async -> VECSection {
+        if let lastDateofMonth = self.lastDateOfMonth?.dateAt(.nextMonth) {
+            let section = await dateCreator.generateCalendarByDate(lastDateofMonth)
+            calendars.append(section)
+            self.lastDateOfMonth = lastDateofMonth
+            return section
+        } else {
+            guard let lastDateofMonth = calendars.last?.month.date.dateAt(.nextMonth) else { fatalError("마지막 Date가 저장되어 있지 않습니다.") }
+            let section = await dateCreator.generateCalendarByDate(lastDateofMonth)
+            calendars.append(section)
+            self.lastDateOfMonth = lastDateofMonth
+            return section
+        }
     }
 }
 
 // MARK: - Section Editing
 extension VECViewModel {
     private func put(events: [VECEvent], in section: VECSection) async {
-        assert(calendars.last?.id == section.id)
-        let newCalendar = await sectionOrganizer.applyEventsOnEachDay(events: events, section: section)
+        var calendars = self.calendars
+        var events = events
+        await eventManager.calculateEventLayoutPositions(events: &events)
+        let filteredEvents = await eventManager.filter(events: events, at: section.month.date)
+        let newCalendar = await sectionOrganizer.applyEventsOnEachDay(events: filteredEvents, section: section)
         if let index = calendars.firstIndex(of: section) {
             calendars[index] = newCalendar
         } else {
             calendars.append(newCalendar)
         }
+        self.calendars = calendars
     }
 }
 
@@ -118,7 +160,7 @@ extension VECViewModel {
         // 현재 이벤트를 Section안에 넣습니다. 그 과정에 Location에 맞게 이벤트를 재배치하여 올바르게 할당합니다.
         var newCalendars = calendars
         for (index, calendar) in newCalendars.enumerated() {
-            let filteredEvent = await eventManager.findEventsAtMonth(newEvents, month: calendar.month.date)
+            let filteredEvent = await eventManager.filter(events: newEvents, at: calendar.month.date)
             newCalendars[index] = await sectionOrganizer.applyEventsOnEachDayWithStartingToDeleteEvents(events: filteredEvent, section: calendar)
         }
         
@@ -148,7 +190,7 @@ extension VECViewModel {
         
         var newCalendars = calendars
         for (index, calendar) in newCalendars.enumerated() {
-            let filteredEvent = await eventManager.findEventsAtMonth(newEvents, month: calendar.month.date)
+            let filteredEvent = await eventManager.filter(events: newEvents, at: calendar.month.date)
             newCalendars[index] = await sectionOrganizer.applyEventsOnEachDayWithStartingToDeleteEvents(events: filteredEvent, section: calendar)
         }
         
@@ -179,7 +221,7 @@ extension VECViewModel {
         }
         
         for calendar in newCalendars {
-            let filteredEvent = await eventManager.findEventsAtMonth(newEvents, month: calendar.key.month.date)
+            let filteredEvent = await eventManager.filter(events: newEvents, at: calendar.key.month.date)
             calendars[calendar.value] = await sectionOrganizer.applyEventsOnEachDayWithStartingToDeleteEvents(events: filteredEvent, section: calendar.key)
         }
         

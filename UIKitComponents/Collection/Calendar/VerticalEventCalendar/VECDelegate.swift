@@ -52,20 +52,20 @@ extension VerticalEventCalendar {
 // MARK: - Infinite Scroll Function
 extension VerticalEventCalendar {
     private func infiniteScroll() {
-        
-        
-        UIView.setAnimationsEnabled(false)
-        
-        collectionView.performBatchUpdates {
-            Task {
-                let positions = VECPositions(collectionView: collectionView)
-                guard let indexSet = await viewModel.activateBottomInfiniteScroll(positionData: positions) else { return }
-                self.collectionView.insertSections(indexSet)
-            }
-        } completion: { _ in
-            
-            self.viewModel.deactivate(after: 0.2)
-            UIView.setAnimationsEnabled(true)
+        Task {
+            let positions = VECPositions(collectionView: collectionView)
+            await self.viewModel.activateBottomInfiniteScroll(positionData: positions)
         }
+        
+//        collectionView.performBatchUpdates {
+//            Task {
+//                let positions = VECPositions(collectionView: collectionView)
+//                guard let indexSet = await viewModel.activateBottomInfiniteScroll(positionData: positions) else { return }
+//                self.collectionView.insertSections(indexSet)
+//            }
+//        } completion: { _ in
+//            self.viewModel.deactivate(after: 0.2)
+//            UIView.setAnimationsEnabled(true)
+//        }
     }
 }

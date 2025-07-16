@@ -30,19 +30,32 @@ class VECTestViewController: UIViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide)
         }
         
-        let title = ["처에", "그림", "아이스크림", "바닐라", "테스트", "요구르트", "비닐"]
-        let colors: [UIColor] = [.black, .blue, .cyan, .green, .brown, .darkGray, .gray, .magenta, .orange]
+        
         
         let testEraseUUID = UUID().uuidString
         self.v.add(event: Event(id: testEraseUUID, title: "진짜 테스트다", startDate: "2025-05-03".toDate()!.date, endDate: "2025-05-21".toDate()!.date, calendar: "", color: .systemPink, isAllDay: true))
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.v.add(events: [
-                Event(id: "as", title: "첫 날", startDate: "2025-05-21".toDate()!.date, endDate: "2025-05-21".toDate()!.date, calendar: "", color: .darkGray, isAllDay: true),
-                Event(id: .init(), title: "첫 날", startDate: "2025-05-19".toDate()!.date, endDate: "2025-05-20".toDate()!.date, calendar: "", color: .darkGray, isAllDay: true)
-            ])
+//            self.v.add(events: [
+//                Event(id: "as", title: "첫 날", startDate: "2025-05-21".toDate()!.date, endDate: "2025-05-21".toDate()!.date, calendar: "", color: .darkGray, isAllDay: true),
+//                Event(id: .init(), title: "첫 날", startDate: "2025-05-19".toDate()!.date, endDate: "2025-05-20".toDate()!.date, calendar: "", color: .darkGray, isAllDay: true)
+//            ])
+            let title = ["처에", "그림", "아이스크림", "바닐라", "테스트", "요구르트", "비닐"]
+            let colors: [UIColor] = [.black, .blue, .cyan, .green, .brown, .darkGray, .gray, .magenta, .orange]
             
+            var events: [Event] = []
+            var curDate = "2025-07-21".toDate()!.date
+            
+            for _ in 0...30000 {
+                let event = Event(id: UUID().uuidString, title: title.randomElement()!, startDate: curDate, endDate: curDate, calendar: "", color: colors.randomElement()!, isAllDay: true)
+                events.append(event)
+                curDate = curDate.dateAt(.tomorrow)
+            }
+            
+            
+            self.v.add(events: events)
+//            self.v.add(event: events.first!)
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                self.v.deleteEvent(by: testEraseUUID)
+                self.v.deleteEvent(by: testEraseUUID)
             }
         }
     }
