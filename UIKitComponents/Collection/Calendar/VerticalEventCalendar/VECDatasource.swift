@@ -31,7 +31,7 @@ extension VerticalEventCalendar: UICollectionViewDataSource {
         guard kind == UICollectionView.elementKindSectionHeader else { return UICollectionReusableView() }
         guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: VECReusableMonth.identifier, for: indexPath) as? VECReusableMonth else { return UICollectionReusableView() }
         let monthModel = viewModel.calendars[indexPath.section].month
-        view.update(with: monthModel)
+        view.update(with: monthModel, locale: self.locale)
         return view
     }
 }

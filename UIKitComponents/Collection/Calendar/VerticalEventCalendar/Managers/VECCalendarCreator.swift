@@ -9,7 +9,7 @@ import DSA
 internal import SwiftDate
 
 
-actor VECCalendarCreator {
+struct VECCalendarCreator {
     func generateCalendarByDate(_ date: Date) -> VECSection {
         return createCalendar(by: date)
     }

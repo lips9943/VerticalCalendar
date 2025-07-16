@@ -70,6 +70,7 @@ open class VerticalEventCalendar: UIView {
     }
     
     public init(startDate: Date = Date(), locale: Locale = Locale.current) {
+        self.locale = locale
         layout = VECLayout()
         collectionView = VECCollectionView()
         viewModel = VECViewModel(

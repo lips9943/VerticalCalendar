@@ -15,6 +15,7 @@ class VECViewModel: @unchecked Sendable {
     private let eventManager = VECEventManager()
     private let sectionOrganizer = VECSectionOrganizer()
     private let collectionView: UICollectionView
+    private var lastDateOfMonth: Date!
     private var startDate: Date!
     
     private var isActivateInfiniteScroll: Bool = false
@@ -29,23 +30,21 @@ class VECViewModel: @unchecked Sendable {
          startDate: Date) {
         self.collectionView = collectionView
         self.startDate = startDate
-        Task {
-            var newCalendars = await setDefaultCalendars(startDate: startDate)
-            
-            DispatchQueue.main.async {
-                self.calendars = newCalendars
-                collectionView.reloadData()
-            }
+        let newCalendars = setDefaultCalendars(startDate: startDate)
+        self.lastDateOfMonth = newCalendars.last!.month.date
+        DispatchQueue.main.async {
+            self.calendars = newCalendars
+            collectionView.reloadData()
         }
     }
     
-    private func setDefaultCalendars(startDate: Date) async -> [VECSection] {
+    private func setDefaultCalendars(startDate: Date) -> [VECSection] {
         let now = Date.now
         var newCalendars: [VECSection] = .init()
         let difference = startDate.difference(in: .month, from: now) ?? 10
         var currentDate = startDate
         for _ in 0..<difference + 3 {
-            let calendar = await dateCreator.generateCalendarByDate(currentDate)
+            let calendar = dateCreator.generateCalendarByDate(currentDate)
             newCalendars.append(calendar)
             currentDate = currentDate.dateAt(.nextMonth)
         }
@@ -65,7 +64,6 @@ extension VECViewModel {
     
     func moveScrollToCurrentDateCell(by date: Date, setPrev: Bool) async {
         guard let indexPath = await indexConvertor.getIndexPath(in: calendars, by: date, setLastWeekOfDate: setPrev) else { return }
-        
         DispatchQueue.main.async {
             self.collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
         }
@@ -74,9 +72,7 @@ extension VECViewModel {
     func activateBottomInfiniteScroll(positionData: VECPositions) async -> IndexSet? {
         isActivateInfiniteScroll = true
         var calendars = self.calendars
-        guard scrollCalculator.isOffsetYAtBottomEdge(positionData: positionData) else {
-            return nil
-        }
+        guard scrollCalculator.isOffsetYAtBottomEdge(positionData: positionData) else { return nil }
         await appendCalendar(&calendars)
         guard let mainIndex = try? await indexConvertor.lastSectionIntoIndexSet(calendars: calendars) else { return nil }
         self.calendars = calendars
@@ -87,16 +83,21 @@ extension VECViewModel {
 // MARK: - CRUD For Calendars
 extension VECViewModel {
     private func appendCalendar(_ calendars: inout [VECSection]) async {
-        let section = await dateCreator.generateCalendarByDate(calendars[calendars.count - 1].month.date.dateAt(.nextMonth))
+        let section = dateCreator.generateCalendarByDate(calendars[calendars.count - 1].month.date.dateAt(.nextMonth))
         let newCalendar = await sectionOrganizer.applyEventsOnEachDay(events: events, section: section)
         calendars.append(newCalendar)
     }
-    
-    private func appendCalendar() async {
-        let section = await dateCreator.generateCalendarByDate(calendars[calendars.count - 1].month.date.dateAt(.nextMonth))
+}
+
+// MARK: - Section Editing
+extension VECViewModel {
+    private func put(events: [VECEvent], in section: VECSection) async {
+        assert(calendars.last?.id == section.id)
         let newCalendar = await sectionOrganizer.applyEventsOnEachDay(events: events, section: section)
-        DispatchQueue.main.async {
-            self.calendars.append(newCalendar)
+        if let index = calendars.firstIndex(of: section) {
+            calendars[index] = newCalendar
+        } else {
+            calendars.append(newCalendar)
         }
     }
 }

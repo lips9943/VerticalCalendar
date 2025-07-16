@@ -30,6 +30,9 @@ class VECTestViewController: UIViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide)
         }
         
+        let title = ["처에", "그림", "아이스크림", "바닐라", "테스트", "요구르트", "비닐"]
+        let colors: [UIColor] = [.black, .blue, .cyan, .green, .brown, .darkGray, .gray, .magenta, .orange]
+        
         let testEraseUUID = UUID().uuidString
         self.v.add(event: Event(id: testEraseUUID, title: "진짜 테스트다", startDate: "2025-05-03".toDate()!.date, endDate: "2025-05-21".toDate()!.date, calendar: "", color: .systemPink, isAllDay: true))
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -39,8 +42,7 @@ class VECTestViewController: UIViewController {
             ])
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                
-                self.v.deleteEvent(by: testEraseUUID)
+//                self.v.deleteEvent(by: testEraseUUID)
             }
         }
     }

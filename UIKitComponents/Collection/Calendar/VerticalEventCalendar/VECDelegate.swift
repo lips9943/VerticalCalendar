@@ -52,12 +52,13 @@ extension VerticalEventCalendar {
 // MARK: - Infinite Scroll Function
 extension VerticalEventCalendar {
     private func infiniteScroll() {
-        let positions = VECPositions(collectionView: collectionView)
+        
         
         UIView.setAnimationsEnabled(false)
         
         collectionView.performBatchUpdates {
             Task {
+                let positions = VECPositions(collectionView: collectionView)
                 guard let indexSet = await viewModel.activateBottomInfiniteScroll(positionData: positions) else { return }
                 self.collectionView.insertSections(indexSet)
             }
