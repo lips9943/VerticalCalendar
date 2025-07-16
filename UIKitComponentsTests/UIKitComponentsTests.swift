@@ -26,12 +26,28 @@ final class UIKitComponentsTests: XCTestCase {
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
     }
 
-    func testPerformanceExample() throws {
-        let manager = VerticalEventCalendarDataManager()
-        manager.initialSections()
-        manager.datas.bind { sections in
-            
+    struct TestStruct: Equatable, Hashable {
+        var id: String
+        var value: Int
+        
+        static func == (lhs: TestStruct, rhs: TestStruct) -> Bool {
+            return lhs.id == rhs.id
         }
         
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
+    }
+    
+    func testPerformanceExample() throws {
+        let fst = TestStruct(id: "1", value: 1)
+        let snd = TestStruct(id: "2", value: 2)
+        let trd = TestStruct(id: "3", value: 3)
+        let forth = TestStruct(id: "4", value: 4)
+        let list: Set<TestStruct> = [fst, snd, trd, forth]
+        
+        let testElements = [TestStruct(id: "2", value: 6), TestStruct(id: "5", value: 1)]
+        let new = list.update(contentsOf: testElements)
+        print(new)
     }
 }

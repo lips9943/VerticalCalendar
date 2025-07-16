@@ -25,6 +25,7 @@ class VECViewModel: @unchecked Sendable {
     
     var calendars: [VECSection] = []
     var events: [VECEvent] = []
+    var eventGroups: [VECEventGroup] = []
     
     init(collectionView: UICollectionView,
          startDate: Date) {
@@ -69,7 +70,7 @@ extension VECViewModel {
         }
     }
     
-    func activateBottomInfiniteScroll(positionData: VECPositions) async -> IndexSet? {
+    func activateBottomInfiniteScroll(positionData: VECPositions) async {
         isActivateInfiniteScroll = true
         await UIView.setAnimationsEnabled(false)
         
@@ -95,17 +96,6 @@ extension VECViewModel {
                 
             }
         }
-//
-//        var calendars = self.calendars
-//        guard scrollCalculator.isOffsetYAtBottomEdge(positionData: positionData) else { return nil }
-//        let section = await appendCalendar(&calendars)
-//        guard let mainIndex = try? await indexConvertor.lastSectionIntoIndexSet(calendars: calendars) else { return nil }
-//        
-//        Task {
-//            await put(events: self.events, in: section)
-//        }
-//        return mainIndex
-        return nil
     }
 }
 

@@ -39,7 +39,7 @@ actor VECSectionOrganizer {
     
     func inspectEventsReorderByWeek(in section: VECSection) -> VECSection {
         var newSection = section
-        var activeEvents: [UUID: Int] = [:]
+        var activeEvents: [String: Int] = [:]
         newSection.days = section.days.map { day in
             var newDay = day
             var newEvents = newDay.events
@@ -52,7 +52,7 @@ actor VECSectionOrganizer {
                     .map {
                         var event = $0.element
                         event.locationNumber = $0.offset
-                        activeEvents[event.id] = $0.offset
+                        activeEvents[event.ekEventID] = $0.offset
                         return event
                     }
             
@@ -62,13 +62,12 @@ actor VECSectionOrganizer {
                     .enumerated()
                     .forEach { (index, event) in
                         var event = event
-                        if let activeID = activeEvents[event.id], activeID != event.locationNumber {
+                        if let activeID = activeEvents[event.ekEventID], activeID != event.locationNumber {
                             var replaceEvent = newEvents[activeID]
                             replaceEvent?.locationNumber = event.locationNumber
                             newEvents[event.locationNumber] = replaceEvent
                             event.locationNumber = activeID
                             newEvents[activeID] = event
-                            
                         }
                     }
             }

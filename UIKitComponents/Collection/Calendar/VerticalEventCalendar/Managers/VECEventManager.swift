@@ -102,3 +102,53 @@ actor VECEventManager {
         return updatedEvents
     }
 }
+// MARK: - Managing Groups
+extension VECEventManager {
+    /// - 추가적으로 적용되는 기능
+    /// 1. 그룹의 date를 확인하여, 이벤트와 비교해서 그룹이 존재한다면 추가.
+    func add(event: VECEvent, in groups: inout [VECEventGroup]) {
+        for date in event.getDatesOfMonth {
+            put(event: event, in: &groups, on: date)
+        }
+    }
+    
+    func add(events: [VECEvent], in groups: inout [VECEventGroup]) {
+        for date in getDates(from: events) {
+            put(events: events, in: &groups, on: date)
+        }
+    }
+    
+    func delete(event id: String, between dates: [Date], in groups: inout [VECEventGroup]) {
+        for date in dates {
+            guard let index = groups.firstIndex(where: {$0 == date}) else { continue }
+            let _ = groups[index].remove(where: {$0.ekEventID == id})
+        }
+    }
+    
+    private func put(event: VECEvent, in groups: inout [VECEventGroup], on date: Date) {
+        let index = groups.firstIndex { $0 == date }
+        if let index = index {
+            groups[index].insert(event)
+        } else {
+            groups.append(VECEventGroup(date: date, events: [event]))
+        }
+    }
+    
+    private func put(events: [VECEvent], in groups: inout [VECEventGroup], on date: Date) {
+        let filteredEvents: [VECEvent] = events.filter { $0.isEventInThisMonth(date) }
+        let index = groups.firstIndex { $0 == date }
+        if let index = index {
+            groups[index].insert(contentsOf: filteredEvents)
+        } else {
+            groups.append(VECEventGroup(date: date, events: events))
+        }
+    }
+    
+    private func getDates(from events: [VECEvent]) -> [Date] {
+        var dates: Set<Date> = []
+        for event in events {
+            dates.formUnion(event.getDatesOfMonth)
+        }
+        return Array(dates)
+    }
+}

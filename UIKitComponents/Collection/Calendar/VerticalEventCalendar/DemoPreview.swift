@@ -35,10 +35,6 @@ class VECTestViewController: UIViewController {
         let testEraseUUID = UUID().uuidString
         self.v.add(event: Event(id: testEraseUUID, title: "진짜 테스트다", startDate: "2025-05-03".toDate()!.date, endDate: "2025-05-21".toDate()!.date, calendar: "", color: .systemPink, isAllDay: true))
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//            self.v.add(events: [
-//                Event(id: "as", title: "첫 날", startDate: "2025-05-21".toDate()!.date, endDate: "2025-05-21".toDate()!.date, calendar: "", color: .darkGray, isAllDay: true),
-//                Event(id: .init(), title: "첫 날", startDate: "2025-05-19".toDate()!.date, endDate: "2025-05-20".toDate()!.date, calendar: "", color: .darkGray, isAllDay: true)
-//            ])
             let title = ["처에", "그림", "아이스크림", "바닐라", "테스트", "요구르트", "비닐"]
             let colors: [UIColor] = [.black, .blue, .cyan, .green, .brown, .darkGray, .gray, .magenta, .orange]
             
@@ -53,7 +49,6 @@ class VECTestViewController: UIViewController {
             
             
             self.v.add(events: events)
-//            self.v.add(event: events.first!)
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.v.deleteEvent(by: testEraseUUID)
             }
