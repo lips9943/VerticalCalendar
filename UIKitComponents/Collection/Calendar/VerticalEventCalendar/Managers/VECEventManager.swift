@@ -8,20 +8,6 @@ import UIKit
 internal import SwiftDate
 
 actor VECEventManager {
-    /// 파라미터 Date를 받아와 속해 있는 달에 이벤트를 골라내어 반환합니다.
-    /// startDate와 endDate 둘 중 하나라도 속해있다면 포함됩니다.
-    func findEventsAtMonth(_ events: [VECEvent], month: Date) -> [VECEvent] {
-        var filteredEvents: [VECEvent] = []
-        
-        for event in events {
-            if event.isEventInThisMonth(month) {
-                filteredEvents.append(event)
-            }
-        }
-        
-        return filteredEvents
-    }
-    
     /// 모든 이벤트들을 정렬하고, UI에 맞게 Location Number을 지정합니다.
     func calculateEventLayoutPositions(events: inout [VECEvent]) {
         guard !events.isEmpty else { return }
@@ -100,5 +86,76 @@ actor VECEventManager {
         }
         
         return updatedEvents
+    }
+}
+// MARK: - Managing Groups
+extension VECEventManager {
+    /// - 추가적으로 적용되는 기능
+    /// 1. 그룹의 date를 확인하여, 이벤트와 비교해서 그룹이 존재한다면 추가.
+    func add(event: VECEvent, in groups: inout [VECEventGroup]) -> [VECEventGroup] {
+        var result: [VECEventGroup] = []
+        for date in event.getDatesOfMonth {
+            result.append(put(event: event, in: &groups, on: date))
+        }
+        return result
+    }
+    
+    func add(events: [VECEvent], in groups: inout [VECEventGroup]) -> [VECEventGroup] {
+        var result: [VECEventGroup] = []
+        for date in getDates(from: events) {
+            result.append(put(events: events, in: &groups, on: date))
+        }
+        return result
+    }
+    
+    func delete(event id: String, between dates: [Date], in groups: inout [VECEventGroup]) -> [VECEventGroup] {
+        var result: [VECEventGroup] = []
+        for date in dates {
+            guard let index = groups.firstIndex(where: {$0 == date}) else { continue }
+            guard let _ = groups[index].remove(where: {$0.ekEventID == id}) else { continue }
+            result.append(groups[index])
+        }
+        return result
+    }
+    
+    func find(group: [VECEventGroup], by startDate: Date, _ endDate: Date) -> [VECEventGroup] {
+        group.filter { group in
+            guard group == startDate || group == endDate else { return false }
+            return true
+        }
+    }
+    
+    private func put(event: VECEvent, in groups: inout [VECEventGroup], on date: Date) -> VECEventGroup {
+        let index = groups.firstIndex { $0 == date }
+        if let index = index {
+            groups[index].insert(event)
+            return groups[index]
+        } else {
+            let group = VECEventGroup(date: date, events: [event])
+            groups.append(group)
+            return group
+        }
+    }
+    
+    private func put(events: [VECEvent], in groups: inout [VECEventGroup], on date: Date) -> VECEventGroup {
+        let filteredEvents: [VECEvent] = events.filter { $0.isEventInThisMonth(date) }
+        let index = groups.firstIndex { $0 == date }
+        
+        if let index = index {
+            groups[index].insert(contentsOf: filteredEvents)
+            return groups[index]
+        } else {
+            let group = VECEventGroup(date: date, events: filteredEvents)
+            groups.append(group)
+            return group
+        }
+    }
+    
+    private func getDates(from events: [VECEvent]) -> [Date] {
+        var dates: Set<Date> = []
+        for event in events {
+            dates.formUnion(event.getDatesOfMonth)
+        }
+        return Array(dates)
     }
 }

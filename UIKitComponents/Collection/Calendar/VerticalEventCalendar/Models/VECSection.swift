@@ -6,6 +6,7 @@
 //
 
 struct VECSection: Hashable {
+    let id: UUID = UUID()
     var month: VECMonth
     var days: [VECDay]
 }

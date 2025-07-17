@@ -9,12 +9,18 @@ import DSA
 internal import SwiftDate
 
 
-actor VECCalendarCreator {
+struct VECCalendarCreator {
     func generateCalendarByDate(_ date: Date) -> VECSection {
+        return createCalendar(by: date)
+    }
+    func generateCalendarByDate(_ date: Date) async -> VECSection {
         return createCalendar(by: date)
     }
     
     func appendCalendarsByDate(_ date: Date, calendarCount: Int = 3) -> [VECSection] {
+        return createCalendars(by: date, to: true, calendarCount: calendarCount)
+    }
+    func appendCalendarsByDate(_ date: Date, calendarCount: Int = 3) async -> [VECSection] {
         return createCalendars(by: date, to: true, calendarCount: calendarCount)
     }
     

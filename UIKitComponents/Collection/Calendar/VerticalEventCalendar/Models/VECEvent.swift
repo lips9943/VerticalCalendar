@@ -7,8 +7,7 @@
 import UIKit
 internal import SwiftDate
 
-struct VECEvent: Equatable, Hashable {
-    let id: UUID
+struct VECEvent {
     var ekEventID: String
     var title: String
     var startDate: Date
@@ -20,7 +19,6 @@ struct VECEvent: Equatable, Hashable {
     var color: UIColor
     
     init(id: UUID = UUID(), ekEventID: String = "", title: String, startDate: Date, endDate: Date, calendar: String = "", color: UIColor = .systemOrange.withAlphaComponent(0.9), isAllDay: Bool = true) {
-        self.id = id
         self.ekEventID = ekEventID
         self.title = title
         self.startDate = startDate
@@ -31,7 +29,6 @@ struct VECEvent: Equatable, Hashable {
     }
     
     init(event: Event) {
-        self.id = UUID()
         self.ekEventID = event.id
         self.title = event.title
         self.startDate = event.startDate
@@ -44,16 +41,26 @@ struct VECEvent: Equatable, Hashable {
     var dateLangth: Int? { startDate.difference(in: .day, from: endDate) }
     var startOfDay: Date { startDate.dateAt(.startOfDay) }
     var endOfDay: Date { endDate.dateAt(.endOfDay) }
+    var isSameMonthWithEndDate: Bool { startDate.compare(.isSameMonth(endDate)) }
+    
+    var getDatesOfMonth: [Date] {
+        if isSameMonthWithEndDate {
+            return [startDate.dateAt(.startOfMonth)]
+        } else {
+            let start = startDate.dateAt(.startOfMonth)
+            let end = endDate.dateAt(.startOfMonth)
+            return start.range(of: .month, with: end)
+        }
+    }
     
     var weekDayCount: Int {
-        let isSameMonth = startDate.compare(.isSameMonth(endDate))
         var currentDate = startDate
-        if !isSameMonth {
+        if !isSameMonthWithEndDate {
             var count: Int = 0
             let differ = startDate.differences(in: [.month, .weekOfMonth], from: endDate)
             let monthDiff = differ[.month] ?? 0
             for _ in 0..<monthDiff {
-                if isSameMonth {
+                if isSameMonthWithEndDate {
                     count += endDate.weekOfMonth - currentDate.weekOfMonth
                     break
                 } else {
@@ -220,5 +227,20 @@ extension VECEvent {
 extension VECEvent {
     static func convert(from events: [Event]) -> [VECEvent] {
         events.map { VECEvent(event: $0) }
+    }
+}
+
+// MARK: - Third Extensions
+extension VECEvent: Equatable, Hashable {
+    static func == (lhs: VECEvent, rhs: VECEvent) -> Bool {
+        lhs.ekEventID == rhs.ekEventID
+    }
+    
+    static func == (lhs: VECEvent, rhs: Date) -> Bool {
+        lhs.isDateBetweenStartAndEndDate(rhs)
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ekEventID)
     }
 }

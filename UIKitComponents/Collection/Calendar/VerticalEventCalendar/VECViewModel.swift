@@ -15,6 +15,7 @@ class VECViewModel: @unchecked Sendable {
     private let eventManager = VECEventManager()
     private let sectionOrganizer = VECSectionOrganizer()
     private let collectionView: UICollectionView
+    private var lastDateOfMonth: Date!
     private var startDate: Date!
     
     private var isActivateInfiniteScroll: Bool = false
@@ -24,28 +25,27 @@ class VECViewModel: @unchecked Sendable {
     
     var calendars: [VECSection] = []
     var events: [VECEvent] = []
+    var eventGroups: [VECEventGroup] = []
     
     init(collectionView: UICollectionView,
          startDate: Date) {
         self.collectionView = collectionView
         self.startDate = startDate
-        Task {
-            var newCalendars = await setDefaultCalendars(startDate: startDate)
-            
-            DispatchQueue.main.async {
-                self.calendars = newCalendars
-                collectionView.reloadData()
-            }
+        let newCalendars = setDefaultCalendars(startDate: startDate)
+        self.lastDateOfMonth = newCalendars.last!.month.date
+        DispatchQueue.main.async {
+            self.calendars = newCalendars
+            collectionView.reloadData()
         }
     }
     
-    private func setDefaultCalendars(startDate: Date) async -> [VECSection] {
+    private func setDefaultCalendars(startDate: Date) -> [VECSection] {
         let now = Date.now
         var newCalendars: [VECSection] = .init()
         let difference = startDate.difference(in: .month, from: now) ?? 10
         var currentDate = startDate
         for _ in 0..<difference + 3 {
-            let calendar = await dateCreator.generateCalendarByDate(currentDate)
+            let calendar = dateCreator.generateCalendarByDate(currentDate)
             newCalendars.append(calendar)
             currentDate = currentDate.dateAt(.nextMonth)
         }
@@ -65,132 +65,164 @@ extension VECViewModel {
     
     func moveScrollToCurrentDateCell(by date: Date, setPrev: Bool) async {
         guard let indexPath = await indexConvertor.getIndexPath(in: calendars, by: date, setLastWeekOfDate: setPrev) else { return }
-        
         DispatchQueue.main.async {
             self.collectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
         }
     }
     
-    func activateBottomInfiniteScroll(positionData: VECPositions) async -> IndexSet? {
+    func activateBottomInfiniteScroll(positionData: VECPositions) async {
+        guard scrollCalculator.isOffsetYAtBottomEdge(positionData: positionData) else { return }
+        guard !isActivateInfiniteScroll else { return }
         isActivateInfiniteScroll = true
-        var calendars = self.calendars
-        guard scrollCalculator.isOffsetYAtBottomEdge(positionData: positionData) else {
-            return nil
+        DispatchQueue.main.async {
+            UIView.setAnimationsEnabled(false)
         }
-        await appendCalendar(&calendars)
-        guard let mainIndex = try? await indexConvertor.lastSectionIntoIndexSet(calendars: calendars) else { return nil }
-        self.calendars = calendars
-        return mainIndex
+        
+        await self.collectionView.performBatchUpdates {
+            var calendars = self.calendars
+            Task {
+                let section = await appendCalendar(&calendars)
+                guard let mainIndex = try? await indexConvertor.lastSectionIntoIndexSet(calendars: calendars) else { return }
+                self.calendars = calendars
+                DispatchQueue.main.async {
+                    self.collectionView.insertSections(mainIndex)
+                }
+                
+                await putEvents(on: self.lastDateOfMonth, in: section)
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadSections(mainIndex)
+                    self.isActivateInfiniteScroll = false
+                    print("end")
+                    UIView.setAnimationsEnabled(true)
+                }
+                
+            }
+        }
     }
 }
 
 // MARK: - CRUD For Calendars
 extension VECViewModel {
-    private func appendCalendar(_ calendars: inout [VECSection]) async {
-        let section = await dateCreator.generateCalendarByDate(calendars[calendars.count - 1].month.date.dateAt(.nextMonth))
-        let newCalendar = await sectionOrganizer.applyEventsOnEachDay(events: events, section: section)
-        calendars.append(newCalendar)
-    }
-    
-    private func appendCalendar() async {
-        let section = await dateCreator.generateCalendarByDate(calendars[calendars.count - 1].month.date.dateAt(.nextMonth))
-        let newCalendar = await sectionOrganizer.applyEventsOnEachDay(events: events, section: section)
-        DispatchQueue.main.async {
-            self.calendars.append(newCalendar)
+    private func appendCalendar(_ calendars: inout [VECSection]) async -> VECSection {
+        if let lastDateofMonth = self.lastDateOfMonth?.dateAt(.nextMonth) {
+            let section = await dateCreator.generateCalendarByDate(lastDateofMonth)
+            calendars.append(section)
+            self.lastDateOfMonth = lastDateofMonth
+            return section
+        } else {
+            guard let lastDateofMonth = calendars.last?.month.date.dateAt(.nextMonth) else { fatalError("마지막 Date가 저장되어 있지 않습니다.") }
+            let section = await dateCreator.generateCalendarByDate(lastDateofMonth)
+            calendars.append(section)
+            self.lastDateOfMonth = lastDateofMonth
+            return section
         }
+    }
+}
+
+// MARK: - Section Editing
+extension VECViewModel {
+    private func putEvents(on date: Date, in section: VECSection) async {
+        var calendars = self.calendars
+        guard let events = self.eventGroups.first(where: { $0 == date
+        })?.events else { return }
+        var arrayEvents = Array(events)
+        
+        await eventManager.calculateEventLayoutPositions(events: &arrayEvents)
+        let newCalendar = await sectionOrganizer.applyEventsOnEachDay(events: arrayEvents, section: section)
+        
+        if let index = calendars.firstIndex(of: section) {
+            calendars[index] = newCalendar
+        } else {
+            calendars.append(newCalendar)
+        }
+        
+        self.calendars = calendars
     }
 }
 
 // MARK: - Event Functions
 extension VECViewModel {
-    func add(event: Event) async {
+    func addWithGroup(event: Event) async {
         guard !isEditing else { return }
         isEditing = true
-        // 변수에 할당된 이벤트들에 현재 만든 이벤트를 Append합니다.
+        
         let vecEvent = VECEvent(event: event)
-        var newEvents = events
-        newEvents.append(vecEvent)
+        let groups = await eventManager.add(event: vecEvent, in: &self.eventGroups)
         
-        // newEvents의 Location과 위치를 재설정합니다.
-        await eventManager.calculateEventLayoutPositions(events: &newEvents)
-        
-        // 현재 이벤트를 Section안에 넣습니다. 그 과정에 Location에 맞게 이벤트를 재배치하여 올바르게 할당합니다.
-        var newCalendars = calendars
-        for (index, calendar) in newCalendars.enumerated() {
-            let filteredEvent = await eventManager.findEventsAtMonth(newEvents, month: calendar.month.date)
-            newCalendars[index] = await sectionOrganizer.applyEventsOnEachDayWithStartingToDeleteEvents(events: filteredEvent, section: calendar)
+        var calendars = self.calendars
+        for group in groups {
+            guard let index = calendars.firstIndex(where: { group == $0.month.date }) else { continue }
+            
+            var events = Array(group.events)
+            await eventManager.calculateEventLayoutPositions(events: &events)
+            
+            calendars[index] = await sectionOrganizer.applyEventsOnEachDayWithStartingToDeleteEvents(events: events, section: calendars[index])
         }
         
-        // 모든게 완료된 calendars를 이용해 CollectionView의 IndexPath를 가져와 reload합니다.
         let indexPaths = await indexConvertor.indexPathInBetween(from: vecEvent.startDate,
                                                           to: vecEvent.endDate,
-                                                          in: newCalendars)
+                                                          in: calendars)
         
         // viewModel 안 events와 calendars에 NewEvents와 newCalendars를 할당합니다.
         DispatchQueue.main.async {
-            self.events = newEvents
-            self.calendars = newCalendars
+            self.calendars = calendars
             self.collectionView.reloadItems(at: indexPaths)
             self.isEditing = false
         }
     }
     
-    func add(events: [Event]) async {
+    func addWithGroup(events: [Event]) async {
         guard !isEditing else { return }
         isEditing = true
+        
         // 변수에 할당된 이벤트들에 현재 만든 이벤트를 Append합니다.
-        var newEvents = self.events
-        newEvents.append(contentsOf: events.map { VECEvent(event: $0)})
+        let groups = await eventManager.add(events: events.map { VECEvent(event: $0) }, in: &self.eventGroups)
+        var calendars = self.calendars
         
-        // newEvents의 Location과 위치를 재설정합니다.
-        await eventManager.calculateEventLayoutPositions(events: &newEvents)
-        
-        var newCalendars = calendars
-        for (index, calendar) in newCalendars.enumerated() {
-            let filteredEvent = await eventManager.findEventsAtMonth(newEvents, month: calendar.month.date)
-            newCalendars[index] = await sectionOrganizer.applyEventsOnEachDayWithStartingToDeleteEvents(events: filteredEvent, section: calendar)
+        for group in groups {
+            guard let index = calendars.firstIndex(where: { group == $0.month.date }) else { continue }
+            
+            var events = Array(group.events)
+            await eventManager.calculateEventLayoutPositions(events: &events)
+            
+            calendars[index] = await sectionOrganizer.applyEventsOnEachDayWithStartingToDeleteEvents(events: events, section: calendars[index])
         }
         
         // viewModel 안 events와 calendars에 NewEvents와 newCalendars를 할당합니다.
         DispatchQueue.main.async {
-            self.events = newEvents
-            self.calendars = newCalendars
+            self.calendars = calendars
             self.collectionView.reloadData()
             self.isEditing = false
         }
     }
     
-    func deleteEvent(by id: String) async -> [IndexPath]? {
-        // id에 해당되는 이벤트를 지우고, Location과 순서를 재설정합니다.
-        var newEvents = events
-        let eventIndex = newEvents.firstIndex { $0.ekEventID == id }
-        guard let eventIndex else { return nil }
-        let event = newEvents.remove(at: eventIndex)
-        await eventManager.calculateEventLayoutPositions(events: &newEvents)
+    func deleteEvent(by id: String, between dates: [Date]) async {
+        guard !isEditing else { return }
+        isEditing = true
+        var calendarWithIndex: [VECSection : Array<VECSection>.Index] = [:]
+        let groups = await eventManager.delete(event: id, between: dates, in: &self.eventGroups)
         
-        var newCalendars: [VECSection: Int] = [:]
-        calendars.enumerated().forEach {
-            let currentMonth = $0.element.month.date
-            let isTheSameMonthAtStartOrEndDate = currentMonth.compare(.isSameMonth(event.startDate)) || currentMonth.compare(.isSameMonth(event.endDate))
-            if isTheSameMonthAtStartOrEndDate {
-                newCalendars[$0.element] = $0.offset
+        for group in groups {
+            guard let index = calendars.firstIndex(where: { group == $0.month.date }) else { continue }
+            var events = Array(group.events)
+            await eventManager.calculateEventLayoutPositions(events: &events)
+            let calendar = await sectionOrganizer.applyEventsOnEachDayWithStartingToDeleteEvents(events: events, section: calendars[index])
+            calendarWithIndex[calendar] = index
+        }
+        
+        let indexPaths = await indexConvertor.indexPathInBetween(from: dates.first!,
+                                                                 to: dates.last!,
+                                                                 in: calendars)
+        
+        DispatchQueue.main.async {
+            for (calendar, index) in calendarWithIndex {
+                self.calendars[index] = calendar
             }
-        }
-        
-        for calendar in newCalendars {
-            let filteredEvent = await eventManager.findEventsAtMonth(newEvents, month: calendar.key.month.date)
-            calendars[calendar.value] = await sectionOrganizer.applyEventsOnEachDayWithStartingToDeleteEvents(events: filteredEvent, section: calendar.key)
-        }
-        
-        events = newEvents
-        
-        
-        // 모든게 완료된 calendars를 이용해 CollectionView의 IndexPath를 가져와 reload합니다.
-        let indexPaths = await indexConvertor.indexPathInBetween(from: event.startDate,
-                                                          to: event.endDate,
-                                                          in: calendars)
-        
-        return indexPaths
+            
+            self.collectionView.reloadItems(at: indexPaths)
+            self.isEditing = false
+        }       
     }
 }
 
