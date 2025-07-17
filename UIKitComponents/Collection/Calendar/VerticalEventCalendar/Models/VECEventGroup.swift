@@ -33,8 +33,8 @@ struct VECEventGroup: Hashable, Equatable {
         events.remove(at: index)
     }
     
-    mutating func remove(where predicate: @escaping (VECEvent) throws -> Bool) -> VECEvent {
-        guard let index = try? events.firstIndex(where: predicate) else { fatalError("인덱스가 받아오지 못했습니다.") }
+    mutating func remove(where predicate: @escaping (VECEvent) throws -> Bool) -> VECEvent? {
+        guard let index = try? events.firstIndex(where: predicate) else { return nil }
         return events.remove(at: index)
     }
      

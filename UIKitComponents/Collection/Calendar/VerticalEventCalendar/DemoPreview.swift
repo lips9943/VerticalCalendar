@@ -15,7 +15,7 @@ internal import SwiftDate
 
 class VECTestViewController: UIViewController {
     let v = VerticalEventCalendar(
-        startDate: Date().dateAt(.prevYear))
+        startDate: Date().dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear).dateAt(.prevYear))
     
     override func viewDidLoad() {
         v.mainBGColor = .systemBackground
@@ -32,16 +32,15 @@ class VECTestViewController: UIViewController {
         
         
         
-        let testEraseUUID = UUID().uuidString
-        self.v.add(event: Event(id: testEraseUUID, title: "진짜 테스트다", startDate: "2025-05-03".toDate()!.date, endDate: "2025-05-21".toDate()!.date, calendar: "", color: .systemPink, isAllDay: true))
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let title = ["처에", "그림", "아이스크림", "바닐라", "테스트", "요구르트", "비닐"]
             let colors: [UIColor] = [.black, .blue, .cyan, .green, .brown, .darkGray, .gray, .magenta, .orange]
             
             var events: [Event] = []
-            var curDate = "2025-07-21".toDate()!.date
+            var curDate = "2021-07-21".toDate()!.date
             
-            for _ in 0...30000 {
+            for _ in 0...3000 {
                 let event = Event(id: UUID().uuidString, title: title.randomElement()!, startDate: curDate, endDate: curDate, calendar: "", color: colors.randomElement()!, isAllDay: true)
                 events.append(event)
                 curDate = curDate.dateAt(.tomorrow)
@@ -49,8 +48,22 @@ class VECTestViewController: UIViewController {
             
             
             self.v.add(events: events)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                self.v.deleteEvent(by: testEraseUUID)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                
+                let title = ["처에", "그림", "아이스크림", "바닐라", "테스트", "요구르트", "비닐"]
+                let colors: [UIColor] = [.black, .blue, .cyan, .green, .brown, .darkGray, .gray, .magenta, .orange]
+                
+                var events: [Event] = []
+                var curDate = "2024-07-21".toDate()!.date
+                
+                for _ in 0...3000 {
+                    let event = Event(id: UUID().uuidString, title: title.randomElement()!, startDate: curDate, endDate: curDate, calendar: "", color: colors.randomElement()!, isAllDay: true)
+                    events.append(event)
+                    curDate = curDate.dateAt(.tomorrow)
+                }
+                
+                
+                self.v.add(events: events)
             }
         }
     }

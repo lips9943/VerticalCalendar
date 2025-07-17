@@ -139,20 +139,23 @@ extension VerticalEventCalendar {
 extension VerticalEventCalendar {
     public func add(event: Event) {
         Task {
-            await viewModel.add(event: event)
+            await viewModel.addWithGroup(event: event)
         }
     }
     public func add(events: [Event]) {
         Task {
-            await viewModel.add(events: events)
+            await viewModel.addWithGroup(events: events)
         }
     }
-    public func deleteEvent(by id: String) {
+    public func deleteEvent(by id: String, dates: (Date, Date)) {
         Task {
-            guard let indexPaths = await viewModel.deleteEvent(by: id) else { return }
-            DispatchQueue.main.async {
-                self.collectionView.reloadItems(at: indexPaths)
-            }
+            await viewModel.deleteEvent(by: id, between: [dates.0, dates.1])
+        }
+    }
+    
+    public func deleteEvent(by event: Event) {
+        Task {
+            await viewModel.deleteEvent(by: event.id, between: [event.startDate, event.endDate])
         }
     }
 }

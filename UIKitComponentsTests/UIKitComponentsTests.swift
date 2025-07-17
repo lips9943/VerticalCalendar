@@ -44,10 +44,9 @@ final class UIKitComponentsTests: XCTestCase {
         let snd = TestStruct(id: "2", value: 2)
         let trd = TestStruct(id: "3", value: 3)
         let forth = TestStruct(id: "4", value: 4)
-        let list: Set<TestStruct> = [fst, snd, trd, forth]
+        var list = [fst, snd, trd, forth]
         
-        let testElements = [TestStruct(id: "2", value: 6), TestStruct(id: "5", value: 1)]
-        let new = list.update(contentsOf: testElements)
-        print(new)
+        list[list.count] = TestStruct(id: "2", value: 3)
+        print(list)
     }
 }
