@@ -6,48 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		BF3628982D9522AA0054E887 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = BF3628972D9522AA0054E887 /* RxGesture */; };
-		BF3EFA9F2D9B9A3600927690 /* RxFlow in Frameworks */ = {isa = PBXBuildFile; productRef = BF3EFA9E2D9B9A3600927690 /* RxFlow */; };
-		BF9AFCAB2D916ABF00D4AB35 /* UIKitComponents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF9AFCA22D916ABE00D4AB35 /* UIKitComponents.framework */; };
-		BF9AFCE02D916B5500D4AB35 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF9AFCDF2D916B5500D4AB35 /* SnapKit */; };
-		BF9AFCE42D916B6C00D4AB35 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = BF9AFCE32D916B6C00D4AB35 /* Then */; };
-		BF9AFCEA2D916EDD00D4AB35 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = BF9AFCE92D916EDD00D4AB35 /* RxBlocking */; };
-		BF9AFCEC2D916EDD00D4AB35 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BF9AFCEB2D916EDD00D4AB35 /* RxCocoa */; };
-		BF9AFCEE2D916EDD00D4AB35 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = BF9AFCED2D916EDD00D4AB35 /* RxRelay */; };
-		BF9AFCF02D916EDD00D4AB35 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BF9AFCEF2D916EDD00D4AB35 /* RxSwift */; };
-		BF9AFE492D92705F00D4AB35 /* Differentiator in Frameworks */ = {isa = PBXBuildFile; productRef = BF9AFE482D92705F00D4AB35 /* Differentiator */; };
-		BF9AFE4B2D92705F00D4AB35 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = BF9AFE4A2D92705F00D4AB35 /* RxDataSources */; };
-		BFC81D2A2D9D25FC0076615C /* SwiftDate in Frameworks */ = {isa = PBXBuildFile; productRef = BFC81D292D9D25FC0076615C /* SwiftDate */; };
-		BFD15B112DB77F970099D518 /* DSA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD15B072DB75DC30099D518 /* DSA.framework */; };
-		BFD15B122DB77F970099D518 /* DSA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFD15B072DB75DC30099D518 /* DSA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-/* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		BF9AFCAC2D916ABF00D4AB35 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BF9AFC992D916ABE00D4AB35 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BF9AFCA12D916ABE00D4AB35;
-			remoteInfo = UIKitComponents;
-		};
-		BFD15B062DB75DC30099D518 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFD15AEE2DB75DC30099D518 /* DSA.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BFF47A372DB756F80003F1F5;
-			remoteInfo = DSA;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
-		BFD15B132DB77F970099D518 /* Embed Frameworks */ = {
+		BF84F21D2E66C3F80053EE6A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BFD15B122DB77F970099D518 /* DSA.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,70 +20,22 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BF9AFCA22D916ABE00D4AB35 /* UIKitComponents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UIKitComponents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF9AFCAA2D916ABF00D4AB35 /* UIKitComponentsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UIKitComponentsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFD15AE12DB75DC30099D518 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
-		BFD15AE22DB75DC30099D518 /* SkipList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkipList.swift; sourceTree = "<group>"; };
-		BFD15AE42DB75DC30099D518 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
-		BFD15AE62DB75DC30099D518 /* DSA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSA.h; sourceTree = "<group>"; };
-		BFD15AE82DB75DC30099D518 /* LinkedListTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTest.swift; sourceTree = "<group>"; };
-		BFD15AEA2DB75DC30099D518 /* StackTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackTest.swift; sourceTree = "<group>"; };
-		BFD15AEC2DB75DC30099D518 /* DSATests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSATests.swift; sourceTree = "<group>"; };
-		BFD15AEE2DB75DC30099D518 /* DSA.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = DSA.xcodeproj; sourceTree = "<group>"; };
-		BFD15B0C2DB7605D0099D518 /* SkipListTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkipListTest.swift; sourceTree = "<group>"; };
+		BF84F0912E66C2220053EE6A /* VerticalCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VerticalCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		BF9AFCB22D916ABF00D4AB35 /* Exceptions for "UIKitComponents" folder in "UIKitComponents" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			publicHeaders = (
-				UIKitComponents.h,
-			);
-			target = BF9AFCA12D916ABE00D4AB35 /* UIKitComponents */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		BF9AFCA42D916ABE00D4AB35 /* UIKitComponents */ = {
+		BF84F0922E66C2220053EE6A /* VerticalCalendar */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				BF9AFCB22D916ABF00D4AB35 /* Exceptions for "UIKitComponents" folder in "UIKitComponents" target */,
-			);
-			path = UIKitComponents;
-			sourceTree = "<group>";
-		};
-		BF9AFCAE2D916ABF00D4AB35 /* UIKitComponentsTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = UIKitComponentsTests;
+			path = VerticalCalendar;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		BF9AFC9F2D916ABE00D4AB35 /* Frameworks */ = {
+		BF84F08E2E66C2220053EE6A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF3EFA9F2D9B9A3600927690 /* RxFlow in Frameworks */,
-				BF9AFE492D92705F00D4AB35 /* Differentiator in Frameworks */,
-				BF3628982D9522AA0054E887 /* RxGesture in Frameworks */,
-				BF9AFCF02D916EDD00D4AB35 /* RxSwift in Frameworks */,
-				BF9AFCEE2D916EDD00D4AB35 /* RxRelay in Frameworks */,
-				BF9AFCE02D916B5500D4AB35 /* SnapKit in Frameworks */,
-				BF9AFCEA2D916EDD00D4AB35 /* RxBlocking in Frameworks */,
-				BFC81D2A2D9D25FC0076615C /* SwiftDate in Frameworks */,
-				BF9AFE4B2D92705F00D4AB35 /* RxDataSources in Frameworks */,
-				BFD15B112DB77F970099D518 /* DSA.framework in Frameworks */,
-				BF9AFCEC2D916EDD00D4AB35 /* RxCocoa in Frameworks */,
-				BF9AFCE42D916B6C00D4AB35 /* Then in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BF9AFCA72D916ABF00D4AB35 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BF9AFCAB2D916ABF00D4AB35 /* UIKitComponents.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,9 +45,7 @@
 		BF9AFC982D916ABE00D4AB35 = {
 			isa = PBXGroup;
 			children = (
-				BF9AFCA42D916ABE00D4AB35 /* UIKitComponents */,
-				BF9AFCAE2D916ABF00D4AB35 /* UIKitComponentsTests */,
-				BFD15AE02DB75DC30099D518 /* Frameworks */,
+				BF84F0922E66C2220053EE6A /* VerticalCalendar */,
 				BF9AFCA32D916ABE00D4AB35 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -138,89 +53,7 @@
 		BF9AFCA32D916ABE00D4AB35 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BF9AFCA22D916ABE00D4AB35 /* UIKitComponents.framework */,
-				BF9AFCAA2D916ABF00D4AB35 /* UIKitComponentsTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		BFD15AE02DB75DC30099D518 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				BFD15AEF2DB75DC30099D518 /* DSA */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		BFD15AE32DB75DC30099D518 /* Lists */ = {
-			isa = PBXGroup;
-			children = (
-				BFD15AE12DB75DC30099D518 /* LinkedList.swift */,
-				BFD15AE22DB75DC30099D518 /* SkipList.swift */,
-			);
-			path = Lists;
-			sourceTree = "<group>";
-		};
-		BFD15AE52DB75DC30099D518 /* Queues */ = {
-			isa = PBXGroup;
-			children = (
-				BFD15AE42DB75DC30099D518 /* Stack.swift */,
-			);
-			path = Queues;
-			sourceTree = "<group>";
-		};
-		BFD15AE72DB75DC30099D518 /* DSA */ = {
-			isa = PBXGroup;
-			children = (
-				BFD15AE32DB75DC30099D518 /* Lists */,
-				BFD15AE52DB75DC30099D518 /* Queues */,
-				BFD15AE62DB75DC30099D518 /* DSA.h */,
-			);
-			path = DSA;
-			sourceTree = "<group>";
-		};
-		BFD15AE92DB75DC30099D518 /* Lists */ = {
-			isa = PBXGroup;
-			children = (
-				BFD15B0C2DB7605D0099D518 /* SkipListTest.swift */,
-				BFD15AE82DB75DC30099D518 /* LinkedListTest.swift */,
-			);
-			path = Lists;
-			sourceTree = "<group>";
-		};
-		BFD15AEB2DB75DC30099D518 /* Queues */ = {
-			isa = PBXGroup;
-			children = (
-				BFD15AEA2DB75DC30099D518 /* StackTest.swift */,
-			);
-			path = Queues;
-			sourceTree = "<group>";
-		};
-		BFD15AED2DB75DC30099D518 /* DSATests */ = {
-			isa = PBXGroup;
-			children = (
-				BFD15AE92DB75DC30099D518 /* Lists */,
-				BFD15AEB2DB75DC30099D518 /* Queues */,
-				BFD15AEC2DB75DC30099D518 /* DSATests.swift */,
-			);
-			path = DSATests;
-			sourceTree = "<group>";
-		};
-		BFD15AEF2DB75DC30099D518 /* DSA */ = {
-			isa = PBXGroup;
-			children = (
-				BFD15AE72DB75DC30099D518 /* DSA */,
-				BFD15AED2DB75DC30099D518 /* DSATests */,
-				BFD15AEE2DB75DC30099D518 /* DSA.xcodeproj */,
-			);
-			name = DSA;
-			path = ../DSA;
-			sourceTree = "<group>";
-		};
-		BFD15AF02DB75DC30099D518 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				BFD15B072DB75DC30099D518 /* DSA.framework */,
+				BF84F0912E66C2220053EE6A /* VerticalCalendar.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -228,7 +61,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		BF9AFC9D2D916ABE00D4AB35 /* Headers */ = {
+		BF84F08C2E66C2220053EE6A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -238,63 +71,29 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		BF9AFCA12D916ABE00D4AB35 /* UIKitComponents */ = {
+		BF84F0902E66C2220053EE6A /* VerticalCalendar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BF9AFCB32D916ABF00D4AB35 /* Build configuration list for PBXNativeTarget "UIKitComponents" */;
+			buildConfigurationList = BF84F0952E66C2220053EE6A /* Build configuration list for PBXNativeTarget "VerticalCalendar" */;
 			buildPhases = (
-				BF9AFC9D2D916ABE00D4AB35 /* Headers */,
-				BF9AFC9E2D916ABE00D4AB35 /* Sources */,
-				BF9AFC9F2D916ABE00D4AB35 /* Frameworks */,
-				BF9AFCA02D916ABE00D4AB35 /* Resources */,
-				BFD15B132DB77F970099D518 /* Embed Frameworks */,
+				BF84F08C2E66C2220053EE6A /* Headers */,
+				BF84F08D2E66C2220053EE6A /* Sources */,
+				BF84F08E2E66C2220053EE6A /* Frameworks */,
+				BF84F08F2E66C2220053EE6A /* Resources */,
+				BF84F21D2E66C3F80053EE6A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				BF9AFCA42D916ABE00D4AB35 /* UIKitComponents */,
+				BF84F0922E66C2220053EE6A /* VerticalCalendar */,
 			);
-			name = UIKitComponents;
+			name = VerticalCalendar;
 			packageProductDependencies = (
-				BF9AFCDF2D916B5500D4AB35 /* SnapKit */,
-				BF9AFCE32D916B6C00D4AB35 /* Then */,
-				BF9AFCE92D916EDD00D4AB35 /* RxBlocking */,
-				BF9AFCEB2D916EDD00D4AB35 /* RxCocoa */,
-				BF9AFCED2D916EDD00D4AB35 /* RxRelay */,
-				BF9AFCEF2D916EDD00D4AB35 /* RxSwift */,
-				BF9AFE482D92705F00D4AB35 /* Differentiator */,
-				BF9AFE4A2D92705F00D4AB35 /* RxDataSources */,
-				BF3628972D9522AA0054E887 /* RxGesture */,
-				BF3EFA9E2D9B9A3600927690 /* RxFlow */,
-				BFC81D292D9D25FC0076615C /* SwiftDate */,
 			);
-			productName = UIKitComponents;
-			productReference = BF9AFCA22D916ABE00D4AB35 /* UIKitComponents.framework */;
+			productName = VerticalCalendar;
+			productReference = BF84F0912E66C2220053EE6A /* VerticalCalendar.framework */;
 			productType = "com.apple.product-type.framework";
-		};
-		BF9AFCA92D916ABF00D4AB35 /* UIKitComponentsTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BF9AFCB82D916ABF00D4AB35 /* Build configuration list for PBXNativeTarget "UIKitComponentsTests" */;
-			buildPhases = (
-				BF9AFCA62D916ABF00D4AB35 /* Sources */,
-				BF9AFCA72D916ABF00D4AB35 /* Frameworks */,
-				BF9AFCA82D916ABF00D4AB35 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				BF9AFCAD2D916ABF00D4AB35 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				BF9AFCAE2D916ABF00D4AB35 /* UIKitComponentsTests */,
-			);
-			name = UIKitComponentsTests;
-			packageProductDependencies = (
-			);
-			productName = UIKitComponentsTests;
-			productReference = BF9AFCAA2D916ABF00D4AB35 /* UIKitComponentsTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -303,14 +102,11 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
-				LastUpgradeCheck = 1620;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
-					BF9AFCA12D916ABE00D4AB35 = {
-						CreatedOnToolsVersion = 16.2;
-					};
-					BF9AFCA92D916ABF00D4AB35 = {
-						CreatedOnToolsVersion = 16.2;
+					BF84F0902E66C2220053EE6A = {
+						CreatedOnToolsVersion = 16.4;
 					};
 				};
 			};
@@ -324,50 +120,19 @@
 			mainGroup = BF9AFC982D916ABE00D4AB35;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				BF9AFCDE2D916B5500D4AB35 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				BF9AFCE12D916B6500D4AB35 /* XCRemoteSwiftPackageReference "Then" */,
-				BF9AFCE82D916EDD00D4AB35 /* XCRemoteSwiftPackageReference "RxSwift" */,
-				BF9AFE472D92705F00D4AB35 /* XCRemoteSwiftPackageReference "RxDataSources" */,
-				BF3628962D9522AA0054E887 /* XCRemoteSwiftPackageReference "RxGesture" */,
-				BF3EFA9D2D9B9A3600927690 /* XCRemoteSwiftPackageReference "RxFlow" */,
-				BFC81D282D9D25FC0076615C /* XCRemoteSwiftPackageReference "SwiftDate" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BF9AFCA32D916ABE00D4AB35 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = BFD15AF02DB75DC30099D518 /* Products */;
-					ProjectRef = BFD15AEE2DB75DC30099D518 /* DSA.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
-				BF9AFCA12D916ABE00D4AB35 /* UIKitComponents */,
-				BF9AFCA92D916ABF00D4AB35 /* UIKitComponentsTests */,
+				BF84F0902E66C2220053EE6A /* VerticalCalendar */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		BFD15B072DB75DC30099D518 /* DSA.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = DSA.framework;
-			remoteRef = BFD15B062DB75DC30099D518 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
-		BF9AFCA02D916ABE00D4AB35 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BF9AFCA82D916ABF00D4AB35 /* Resources */ = {
+		BF84F08F2E66C2220053EE6A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -377,14 +142,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		BF9AFC9E2D916ABE00D4AB35 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BF9AFCA62D916ABF00D4AB35 /* Sources */ = {
+		BF84F08D2E66C2220053EE6A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -393,23 +151,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		BF9AFCAD2D916ABF00D4AB35 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BF9AFCA12D916ABE00D4AB35 /* UIKitComponents */;
-			targetProxy = BF9AFCAC2D916ABF00D4AB35 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		BF9AFCB42D916ABF00D4AB35 /* Debug */ = {
+		BF84F0962E66C2220053EE6A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = CNWLF77UC9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -417,6 +166,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -425,24 +175,27 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Juny.component.UIKitComponents;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Juny.library.VerticalCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,4";
+				WATCHOS_DEPLOYMENT_TARGET = 11.6;
 			};
 			name = Debug;
 		};
-		BF9AFCB52D916ABF00D4AB35 /* Release */ = {
+		BF84F0972E66C2220053EE6A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = CNWLF77UC9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -450,6 +203,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -458,13 +212,17 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Juny.component.UIKitComponents;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Juny.library.VerticalCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator watchos watchsimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_MODULE = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,4";
+				WATCHOS_DEPLOYMENT_TARGET = 11.6;
 			};
 			name = Release;
 		};
@@ -504,6 +262,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = CNWLF77UC9;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -570,6 +329,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = CNWLF77UC9;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -593,41 +353,18 @@
 			};
 			name = Release;
 		};
-		BF9AFCB92D916ABF00D4AB35 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CNWLF77UC9;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Juny.component.UIKitComponentsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		BF9AFCBA2D916ABF00D4AB35 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CNWLF77UC9;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Juny.component.UIKitComponentsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		BF84F0952E66C2220053EE6A /* Build configuration list for PBXNativeTarget "VerticalCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF84F0962E66C2220053EE6A /* Debug */,
+				BF84F0972E66C2220053EE6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		BF9AFC9C2D916ABE00D4AB35 /* Build configuration list for PBXProject "UIKitComponents" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -637,142 +374,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BF9AFCB32D916ABF00D4AB35 /* Build configuration list for PBXNativeTarget "UIKitComponents" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BF9AFCB42D916ABF00D4AB35 /* Debug */,
-				BF9AFCB52D916ABF00D4AB35 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		BF9AFCB82D916ABF00D4AB35 /* Build configuration list for PBXNativeTarget "UIKitComponentsTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BF9AFCB92D916ABF00D4AB35 /* Debug */,
-				BF9AFCBA2D916ABF00D4AB35 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		BF3628962D9522AA0054E887 /* XCRemoteSwiftPackageReference "RxGesture" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.4;
-			};
-		};
-		BF3EFA9D2D9B9A3600927690 /* XCRemoteSwiftPackageReference "RxFlow" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RxSwiftCommunity/RxFlow";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.13.1;
-			};
-		};
-		BF9AFCDE2D916B5500D4AB35 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.7.1;
-			};
-		};
-		BF9AFCE12D916B6500D4AB35 /* XCRemoteSwiftPackageReference "Then" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/devxoul/Then";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
-			};
-		};
-		BF9AFCE82D916EDD00D4AB35 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.9.0;
-			};
-		};
-		BF9AFE472D92705F00D4AB35 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.2;
-			};
-		};
-		BFC81D282D9D25FC0076615C /* XCRemoteSwiftPackageReference "SwiftDate" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/malcommac/SwiftDate";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		BF3628972D9522AA0054E887 /* RxGesture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF3628962D9522AA0054E887 /* XCRemoteSwiftPackageReference "RxGesture" */;
-			productName = RxGesture;
-		};
-		BF3EFA9E2D9B9A3600927690 /* RxFlow */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF3EFA9D2D9B9A3600927690 /* XCRemoteSwiftPackageReference "RxFlow" */;
-			productName = RxFlow;
-		};
-		BF9AFCDF2D916B5500D4AB35 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF9AFCDE2D916B5500D4AB35 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
-		BF9AFCE32D916B6C00D4AB35 /* Then */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF9AFCE12D916B6500D4AB35 /* XCRemoteSwiftPackageReference "Then" */;
-			productName = Then;
-		};
-		BF9AFCE92D916EDD00D4AB35 /* RxBlocking */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF9AFCE82D916EDD00D4AB35 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxBlocking;
-		};
-		BF9AFCEB2D916EDD00D4AB35 /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF9AFCE82D916EDD00D4AB35 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		BF9AFCED2D916EDD00D4AB35 /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF9AFCE82D916EDD00D4AB35 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxRelay;
-		};
-		BF9AFCEF2D916EDD00D4AB35 /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF9AFCE82D916EDD00D4AB35 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
-		};
-		BF9AFE482D92705F00D4AB35 /* Differentiator */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF9AFE472D92705F00D4AB35 /* XCRemoteSwiftPackageReference "RxDataSources" */;
-			productName = Differentiator;
-		};
-		BF9AFE4A2D92705F00D4AB35 /* RxDataSources */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BF9AFE472D92705F00D4AB35 /* XCRemoteSwiftPackageReference "RxDataSources" */;
-			productName = RxDataSources;
-		};
-		BFC81D292D9D25FC0076615C /* SwiftDate */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFC81D282D9D25FC0076615C /* XCRemoteSwiftPackageReference "SwiftDate" */;
-			productName = SwiftDate;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BF9AFC992D916ABE00D4AB35 /* Project object */;
 }
