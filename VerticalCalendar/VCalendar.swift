@@ -16,6 +16,7 @@ open class VCalendar: UICollectionViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.showsVerticalScrollIndicator = false
     }
     
     open override func viewWillAppear(_ animated: Bool) {
@@ -79,8 +80,8 @@ extension VCalendar {
         let collectionHeight = UIScreen.main.bounds.height
         let rows: CGFloat = 6
         let headerHeight: CGFloat = 30
-        var gridHeight: CGFloat = collectionHeight - headerHeight
-        var itemHeight: CGFloat = gridHeight / rows
+        let gridHeight: CGFloat = collectionHeight - headerHeight
+        let itemHeight: CGFloat = gridHeight / rows
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0/7.0),
                                               heightDimension: .absolute(itemHeight))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)

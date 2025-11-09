@@ -28,13 +28,15 @@ class VCDayCellLabel: UILabel {
         self.setTodayLabel(model)
         if model.calendar.isDateInWeekend(model.date) {
             self.textColor = .systemGray2
+        } else {
+            self.textColor = .label
         }
     }
     
     func prepare() {
         self.isHidden = true
         self.text = nil
-        self.textColor = .black
+        self.textColor = .clear
         self.backgroundColor = .clear
     }
     

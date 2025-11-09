@@ -9,7 +9,7 @@ import UIKit
 #if os(iOS)
 open class VCMonthReusableView: UICollectionReusableView {
     public static let identifier: String = "VCMonthReusableView"
-    static var monthLabelColor: UIColor = .systemGray2
+    static var monthLabelColor: UIColor = .systemGray
     
     private let stackView = UIStackView()
     private var slotLabels: [UILabel] = []
