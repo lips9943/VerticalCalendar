@@ -5,7 +5,7 @@
 //  Created by 고혁준 on 9/2/25.
 //
 import Foundation
-import Playgrounds
+
 extension Date {
     var year: Int? {
         let current = self.currentDate()
@@ -66,8 +66,4 @@ extension Date {
             return self.month == other.month && self.year == other.year
         }
     }
-}
-
-#Playground {
-    print(Date())
 }

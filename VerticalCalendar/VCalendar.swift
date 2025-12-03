@@ -18,13 +18,6 @@ open class VCalendar: UICollectionViewController {
         super.viewDidLoad()
         collectionView.showsVerticalScrollIndicator = false
     }
-    
-    open override func viewWillAppear(_ animated: Bool) {
-        DispatchQueue.main.async {
-            guard let indexPath = self.viewModel.indexManager.findToday(in: self.viewModel.calendars) else { return }
-            self.collectionView.scrollToItem(at: indexPath, at: .top, animated: animated)
-        }
-    }
 
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -35,6 +28,13 @@ open class VCalendar: UICollectionViewController {
         self.collectionView.register(VCMonthReusableView.self,
                  forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                  withReuseIdentifier: VCMonthReusableView.identifier)
+    }
+    
+    public func setScrollAtToday(animated: Bool = false) {
+        DispatchQueue.main.async {
+            guard let indexPath = self.viewModel.indexManager.findToday(in: self.viewModel.calendars) else { return }
+            self.collectionView.scrollToItem(at: indexPath, at: .top, animated: animated)
+        }
     }
 }
 

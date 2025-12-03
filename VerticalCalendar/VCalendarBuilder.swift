@@ -4,7 +4,7 @@
 //
 //  Created by 고혁준 on 9/6/25.
 //
-#if os(iOS)
+#if DEBUG 
 public class VCalendarBuilder {
     private var vm: VCDefalutViewModel!
     

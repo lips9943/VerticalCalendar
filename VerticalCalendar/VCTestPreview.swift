@@ -7,7 +7,7 @@
 
 
 
-#if os(iOS)
+#if DEBUG
 import UIKit
 class PreviewConfigure {
     var calendarVC: VCalendar = {
@@ -31,7 +31,7 @@ class PreviewConfigure {
         return nc
     }
 }
-#endif
+
 import SwiftUI
 @available(iOS 18.0, watchOS 11.0)
 #Preview {
@@ -45,6 +45,6 @@ import SwiftUI
     
 }
 
-
+#endif
 
 

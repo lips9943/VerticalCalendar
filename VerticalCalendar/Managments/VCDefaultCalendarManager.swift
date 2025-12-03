@@ -14,7 +14,7 @@ public struct VCDefaultCalendarManager: VCCalendarManager {
     public var locale: Locale
     public var startDate: Date { _startDate }
     public var endDate: Date { _endDate }
-
+    
     init(startDate: Date, endDate: Date, calendar: Calendar, locale: Locale) {
         self.calendar = calendar
         self.locale = locale

@@ -66,7 +66,7 @@ class VCDayCellLabel: UILabel {
             self.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
             self.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
             self.topAnchor.constraint(equalTo: parent.topAnchor/*, constant: screenSize.height * 0.2*/),
-            self.heightAnchor.constraint(equalToConstant: parent.frame.height * 0.22)
+            self.heightAnchor.constraint(equalToConstant: parent.frame.height * 0.24)
         ])
     }
 }

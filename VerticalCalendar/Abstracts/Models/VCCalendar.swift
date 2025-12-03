@@ -6,7 +6,7 @@
 //
 import Foundation
 
-public protocol VCCalendar: Equatable {
+public protocol VCCalendar: Equatable, Comparable {
     associatedtype Month: VCMonth
     associatedtype Day: VCDay
     
@@ -17,6 +17,10 @@ public protocol VCCalendar: Equatable {
 public extension VCCalendar {
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.month == rhs.month
+    }
+    
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        lhs.month.date.atFirstDayOfMonth(lhs.month.calendar) ?? lhs.month.date < rhs.month.date.atFirstDayOfMonth(rhs.month.calendar) ?? rhs.month.date
     }
 }
 
