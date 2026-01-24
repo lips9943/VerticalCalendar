@@ -6,7 +6,7 @@
 //
 import Foundation
 
-public final class VCDefalutDay: VCDay {
+final class VCDefalutDay: VCDay {
     public var calendar: Calendar
     public var locale: Locale
     private var _date: Date

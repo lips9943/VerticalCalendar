@@ -18,8 +18,12 @@ class PreviewConfigure {
         let cm = VCDefaultCalendarManager(startDate: startDate, endDate: endDate, calendar: calendar, locale: .current)
         let vm = VCDefalutViewModel(calendarManager: cm)
         let calendarVC = VCalendar(viewModel: vm)
-        calendarVC.defaultRegisterSet()
+        
         calendarVC.title = "Calendar"
+        calendarVC.collectionView.register(VCDayCell.self, forCellWithReuseIdentifier: VCDayCell.reuseIdentifier)
+        calendarVC.collectionView.register(VCMonthReusableView.self,
+                                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                     withReuseIdentifier: VCMonthReusableView.identifier)
         return calendarVC
     }()
     

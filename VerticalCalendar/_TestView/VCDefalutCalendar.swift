@@ -6,7 +6,7 @@
 //
 
 
-public final class VCDefalutCalendar: VCCalendar {
+final class VCDefalutCalendar: VCCalendar {
     public var month: VCDefalutMonth
     public var days: [VCDefalutDay]
     

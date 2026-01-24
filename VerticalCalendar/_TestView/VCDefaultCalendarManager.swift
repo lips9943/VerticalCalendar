@@ -6,7 +6,7 @@
 //
 import Foundation
 
-public struct VCDefaultCalendarManager: VCCalendarManager {
+struct VCDefaultCalendarManager: VCCalendarManager {
     private var _startDate: Date
     private var _endDate: Date
     
@@ -22,7 +22,7 @@ public struct VCDefaultCalendarManager: VCCalendarManager {
         self._endDate = endDate
     }
     
-    public func createCalendars() throws(VCError) -> [VCDefalutCalendar] {
+    func createCalendars() throws(VCError) -> [VCDefalutCalendar] {
         guard let start = calendar.date(byAdding: .month, value: -1, to: startDate) else { throw VCCreationError.invalidDateFormat(startDate) }
         guard let end = calendar.date(byAdding: .month, value: 1, to: endDate) else { throw VCCreationError.invalidDateFormat(endDate) }
         var dates: any Sequence<Date>
@@ -47,7 +47,7 @@ public struct VCDefaultCalendarManager: VCCalendarManager {
         return calendars
     }
     
-    public func createCalendar(at date: Date) throws(VCError) -> VCDefalutCalendar {
+    func createCalendar(at date: Date) throws(VCError) -> VCDefalutCalendar {
         let calendar = try self.create(at: date)
         let month = VCDefalutMonth(calendar: self.calendar, locale: locale, date: calendar.0)
         let days: [VCDefalutDay] = try self.createEmptyDate(at: date)
