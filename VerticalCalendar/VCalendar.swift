@@ -20,6 +20,7 @@ open class VCalendar: UICollectionViewController {
         super.viewDidLoad()
         setDefaultYearView()
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.scrollsToTop = false
     }
     
     required public init?(coder: NSCoder) {
