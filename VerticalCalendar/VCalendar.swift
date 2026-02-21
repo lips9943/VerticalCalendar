@@ -27,9 +27,12 @@ open class VCalendar: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @MainActor
     public func setScrollAtToday(animated: Bool = false) {
-        guard let indexPath = self.viewModel.indexManager.findToday(in: self.viewModel.calendars) else { return }
-        self.collectionView.scrollToItem(at: indexPath, at: .top, animated: animated)
+        Task {
+            guard let indexPath = await self.viewModel.indexManager.findToday(in: self.viewModel.calendars) else { return }
+            self.collectionView.scrollToItem(at: indexPath, at: .top, animated: animated)
+        }
     }
 }
 
