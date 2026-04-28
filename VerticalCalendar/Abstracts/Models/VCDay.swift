@@ -10,6 +10,7 @@ public protocol VCDay: Equatable {
     var calendar: Calendar { get }
     var locale: Locale { get }
     var date: Date { get }
+    /// 이전 달의 일이 포함된 날짜라면 true
     var isPrevMonthDay: Bool { get }
     var isFirstDayOfMonth: Bool { get }
     var isFirstDayOfWeek: Bool { get}
