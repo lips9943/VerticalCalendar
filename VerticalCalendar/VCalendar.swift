@@ -7,10 +7,12 @@
 import UIKit
 #if os(iOS)
 open class VCalendar: UICollectionViewController {
+    private var isResetScroll: Bool = false
     private var yearview: VCYearView!
     
     public typealias ViewModel = any VCViewModel
     open var viewModel: ViewModel
+    
     public init(viewModel: ViewModel) {
         self.viewModel = viewModel
         super.init(collectionViewLayout: Self.createCompositionalLayout())
@@ -20,7 +22,7 @@ open class VCalendar: UICollectionViewController {
         super.viewDidLoad()
         setDefaultYearView()
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.scrollsToTop = false
+        self.collectionView.scrollsToTop = false
     }
     
     required public init?(coder: NSCoder) {
@@ -28,7 +30,7 @@ open class VCalendar: UICollectionViewController {
     }
     
     @MainActor
-    public func setScrollAtToday(animated: Bool = false) {
+    private func setScrollAtToday(animated: Bool = false) {
         Task {
             guard let indexPath = await self.viewModel.indexManager.findToday(in: self.viewModel.calendars) else { return }
             self.collectionView.scrollToItem(at: indexPath, at: .top, animated: animated)
@@ -117,6 +119,22 @@ extension VCalendar {
         let layout = UICollectionViewCompositionalLayout(section: section)
         
         return layout
+    }
+}
+
+extension VCalendar {
+    open override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let y = scrollView.contentOffset.y
+        guard y < 0, !isResetScroll else { return }
+        let date = Date()
+        isResetScroll = true
+        
+        Task {
+            self.setScrollAtToday()
+            yearview.update(with: date)
+            try await Task.sleep(for: .seconds(2))
+            isResetScroll = false
+        }
     }
 }
 #endif
