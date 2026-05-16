@@ -6,6 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BF9EE0A12FB88F13008DA448 /* VCDayCellTopBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0972FB88F13008DA448 /* VCDayCellTopBorder.swift */; };
+		BF9EE0A22FB88F13008DA448 /* VCIndexingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0932FB88F13008DA448 /* VCIndexingManager.swift */; };
+		BF9EE0A32FB88F13008DA448 /* VCTestPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE08B2FB88F13008DA448 /* VCTestPreview.swift */; };
+		BF9EE0A42FB88F13008DA448 /* VCDefaultDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0892FB88F13008DA448 /* VCDefaultDay.swift */; };
+		BF9EE0A62FB88F13008DA448 /* VCDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0952FB88F13008DA448 /* VCDayCell.swift */; };
+		BF9EE0A72FB88F13008DA448 /* VCMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0842FB88F13008DA448 /* VCMonth.swift */; };
+		BF9EE0A82FB88F13008DA448 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0912FB88F13008DA448 /* DateExtension.swift */; };
+		BF9EE0A92FB88F13008DA448 /* VCViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0802FB88F13008DA448 /* VCViewModel.swift */; };
+		BF9EE0AA2FB88F13008DA448 /* VCDefaultCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0872FB88F13008DA448 /* VCDefaultCalendar.swift */; };
+		BF9EE0AB2FB88F13008DA448 /* VCDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0832FB88F13008DA448 /* VCDay.swift */; };
+		BF9EE0AC2FB88F13008DA448 /* VCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE09E2FB88F13008DA448 /* VCalendar.swift */; };
+		BF9EE0AD2FB88F13008DA448 /* VCMonthReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0992FB88F13008DA448 /* VCMonthReusableView.swift */; };
+		BF9EE0AE2FB88F13008DA448 /* VCCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE07F2FB88F13008DA448 /* VCCalendarManager.swift */; };
+		BF9EE0AF2FB88F13008DA448 /* VCDefaultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE08C2FB88F13008DA448 /* VCDefaultViewModel.swift */; };
+		BF9EE0B02FB88F13008DA448 /* VCDefaultMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE08A2FB88F13008DA448 /* VCDefaultMonth.swift */; };
+		BF9EE0B12FB88F13008DA448 /* VCCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0822FB88F13008DA448 /* VCCalendar.swift */; };
+		BF9EE0B22FB88F13008DA448 /* VCDayCellLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0962FB88F13008DA448 /* VCDayCellLabel.swift */; };
+		BF9EE0B32FB88F13008DA448 /* VCYearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE09A2FB88F13008DA448 /* VCYearView.swift */; };
+		BF9EE0B42FB88F13008DA448 /* VCDefaultCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE0882FB88F13008DA448 /* VCDefaultCalendarManager.swift */; };
+		BF9EE0B52FB88F13008DA448 /* VCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE08F2FB88F13008DA448 /* VCError.swift */; };
+		BF9EE0B62FB88F13008DA448 /* VCCreationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9EE08E2FB88F13008DA448 /* VCCreationError.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		BF84F21D2E66C3F80053EE6A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -20,16 +44,30 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BF84F0912E66C2220053EE6A /* VerticalCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VerticalCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF60650A2FB8918C0074D9FA /* VerticalCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = VerticalCalendar.framework; path = "/Users/jun/Library/Mobile Documents/com~apple~CloudDocs/Xcode/MyFramework/UIKitComponents/build/Debug-iphoneos/VerticalCalendar.framework"; sourceTree = "<absolute>"; };
+		BF9EE07F2FB88F13008DA448 /* VCCalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCCalendarManager.swift; sourceTree = "<group>"; };
+		BF9EE0802FB88F13008DA448 /* VCViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCViewModel.swift; sourceTree = "<group>"; };
+		BF9EE0822FB88F13008DA448 /* VCCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCCalendar.swift; sourceTree = "<group>"; };
+		BF9EE0832FB88F13008DA448 /* VCDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCDay.swift; sourceTree = "<group>"; };
+		BF9EE0842FB88F13008DA448 /* VCMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMonth.swift; sourceTree = "<group>"; };
+		BF9EE0872FB88F13008DA448 /* VCDefaultCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCDefaultCalendar.swift; sourceTree = "<group>"; };
+		BF9EE0882FB88F13008DA448 /* VCDefaultCalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCDefaultCalendarManager.swift; sourceTree = "<group>"; };
+		BF9EE0892FB88F13008DA448 /* VCDefaultDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCDefaultDay.swift; sourceTree = "<group>"; };
+		BF9EE08A2FB88F13008DA448 /* VCDefaultMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCDefaultMonth.swift; sourceTree = "<group>"; };
+		BF9EE08B2FB88F13008DA448 /* VCTestPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCTestPreview.swift; sourceTree = "<group>"; };
+		BF9EE08C2FB88F13008DA448 /* VCDefaultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCDefaultViewModel.swift; sourceTree = "<group>"; };
+		BF9EE08E2FB88F13008DA448 /* VCCreationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCCreationError.swift; sourceTree = "<group>"; };
+		BF9EE08F2FB88F13008DA448 /* VCError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCError.swift; sourceTree = "<group>"; };
+		BF9EE0912FB88F13008DA448 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		BF9EE0932FB88F13008DA448 /* VCIndexingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCIndexingManager.swift; sourceTree = "<group>"; };
+		BF9EE0952FB88F13008DA448 /* VCDayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCDayCell.swift; sourceTree = "<group>"; };
+		BF9EE0962FB88F13008DA448 /* VCDayCellLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCDayCellLabel.swift; sourceTree = "<group>"; };
+		BF9EE0972FB88F13008DA448 /* VCDayCellTopBorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCDayCellTopBorder.swift; sourceTree = "<group>"; };
+		BF9EE0992FB88F13008DA448 /* VCMonthReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCMonthReusableView.swift; sourceTree = "<group>"; };
+		BF9EE09A2FB88F13008DA448 /* VCYearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCYearView.swift; sourceTree = "<group>"; };
+		BF9EE09E2FB88F13008DA448 /* VCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCalendar.swift; sourceTree = "<group>"; };
+		BF9EE0B92FB88F78008DA448 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		BF84F0922E66C2220053EE6A /* VerticalCalendar */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = VerticalCalendar;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BF84F08E2E66C2220053EE6A /* Frameworks */ = {
@@ -45,17 +83,117 @@
 		BF9AFC982D916ABE00D4AB35 = {
 			isa = PBXGroup;
 			children = (
-				BF84F0922E66C2220053EE6A /* VerticalCalendar */,
-				BF9AFCA32D916ABE00D4AB35 /* Products */,
+				BF9EE0A02FB88F13008DA448 /* Sources */,
+				BF9EE0B92FB88F78008DA448 /* Package.swift */,
 			);
 			sourceTree = "<group>";
 		};
-		BF9AFCA32D916ABE00D4AB35 /* Products */ = {
+		BF9EE0812FB88F13008DA448 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				BF84F0912E66C2220053EE6A /* VerticalCalendar.framework */,
+				BF9EE07F2FB88F13008DA448 /* VCCalendarManager.swift */,
+				BF9EE0802FB88F13008DA448 /* VCViewModel.swift */,
 			);
-			name = Products;
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		BF9EE0852FB88F13008DA448 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE0822FB88F13008DA448 /* VCCalendar.swift */,
+				BF9EE0832FB88F13008DA448 /* VCDay.swift */,
+				BF9EE0842FB88F13008DA448 /* VCMonth.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BF9EE0862FB88F13008DA448 /* Abstracts */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE0812FB88F13008DA448 /* Managers */,
+				BF9EE0852FB88F13008DA448 /* Models */,
+			);
+			path = Abstracts;
+			sourceTree = "<group>";
+		};
+		BF9EE08D2FB88F13008DA448 /* Defaults */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE0872FB88F13008DA448 /* VCDefaultCalendar.swift */,
+				BF9EE0882FB88F13008DA448 /* VCDefaultCalendarManager.swift */,
+				BF9EE0892FB88F13008DA448 /* VCDefaultDay.swift */,
+				BF9EE08A2FB88F13008DA448 /* VCDefaultMonth.swift */,
+				BF9EE08B2FB88F13008DA448 /* VCTestPreview.swift */,
+				BF9EE08C2FB88F13008DA448 /* VCDefaultViewModel.swift */,
+			);
+			path = Defaults;
+			sourceTree = "<group>";
+		};
+		BF9EE0902FB88F13008DA448 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE08E2FB88F13008DA448 /* VCCreationError.swift */,
+				BF9EE08F2FB88F13008DA448 /* VCError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		BF9EE0922FB88F13008DA448 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE0912FB88F13008DA448 /* DateExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		BF9EE0942FB88F13008DA448 /* Managments */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE0932FB88F13008DA448 /* VCIndexingManager.swift */,
+			);
+			path = Managments;
+			sourceTree = "<group>";
+		};
+		BF9EE0982FB88F13008DA448 /* DayCell */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE0952FB88F13008DA448 /* VCDayCell.swift */,
+				BF9EE0962FB88F13008DA448 /* VCDayCellLabel.swift */,
+				BF9EE0972FB88F13008DA448 /* VCDayCellTopBorder.swift */,
+			);
+			path = DayCell;
+			sourceTree = "<group>";
+		};
+		BF9EE09B2FB88F13008DA448 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE0982FB88F13008DA448 /* DayCell */,
+				BF9EE0992FB88F13008DA448 /* VCMonthReusableView.swift */,
+				BF9EE09A2FB88F13008DA448 /* VCYearView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BF9EE09F2FB88F13008DA448 /* VerticalCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE0862FB88F13008DA448 /* Abstracts */,
+				BF9EE08D2FB88F13008DA448 /* Defaults */,
+				BF9EE0902FB88F13008DA448 /* Errors */,
+				BF9EE0922FB88F13008DA448 /* Extensions */,
+				BF9EE0942FB88F13008DA448 /* Managments */,
+				BF9EE09B2FB88F13008DA448 /* Views */,
+				BF9EE09E2FB88F13008DA448 /* VCalendar.swift */,
+			);
+			path = VerticalCalendar;
+			sourceTree = "<group>";
+		};
+		BF9EE0A02FB88F13008DA448 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				BF9EE09F2FB88F13008DA448 /* VerticalCalendar */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,14 +223,11 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				BF84F0922E66C2220053EE6A /* VerticalCalendar */,
-			);
 			name = VerticalCalendar;
 			packageProductDependencies = (
 			);
 			productName = VerticalCalendar;
-			productReference = BF84F0912E66C2220053EE6A /* VerticalCalendar.framework */;
+			productReference = BF60650A2FB8918C0074D9FA /* VerticalCalendar.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -122,7 +257,7 @@
 			packageReferences = (
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = BF9AFCA32D916ABE00D4AB35 /* Products */;
+			productRefGroup = BF9AFC982D916ABE00D4AB35;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -146,6 +281,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF9EE0A12FB88F13008DA448 /* VCDayCellTopBorder.swift in Sources */,
+				BF9EE0A22FB88F13008DA448 /* VCIndexingManager.swift in Sources */,
+				BF9EE0A32FB88F13008DA448 /* VCTestPreview.swift in Sources */,
+				BF9EE0A42FB88F13008DA448 /* VCDefaultDay.swift in Sources */,
+				BF9EE0A62FB88F13008DA448 /* VCDayCell.swift in Sources */,
+				BF9EE0A72FB88F13008DA448 /* VCMonth.swift in Sources */,
+				BF9EE0A82FB88F13008DA448 /* DateExtension.swift in Sources */,
+				BF9EE0A92FB88F13008DA448 /* VCViewModel.swift in Sources */,
+				BF9EE0AA2FB88F13008DA448 /* VCDefaultCalendar.swift in Sources */,
+				BF9EE0AB2FB88F13008DA448 /* VCDay.swift in Sources */,
+				BF9EE0AC2FB88F13008DA448 /* VCalendar.swift in Sources */,
+				BF9EE0AD2FB88F13008DA448 /* VCMonthReusableView.swift in Sources */,
+				BF9EE0AE2FB88F13008DA448 /* VCCalendarManager.swift in Sources */,
+				BF9EE0AF2FB88F13008DA448 /* VCDefaultViewModel.swift in Sources */,
+				BF9EE0B02FB88F13008DA448 /* VCDefaultMonth.swift in Sources */,
+				BF9EE0B12FB88F13008DA448 /* VCCalendar.swift in Sources */,
+				BF9EE0B22FB88F13008DA448 /* VCDayCellLabel.swift in Sources */,
+				BF9EE0B32FB88F13008DA448 /* VCYearView.swift in Sources */,
+				BF9EE0B42FB88F13008DA448 /* VCDefaultCalendarManager.swift in Sources */,
+				BF9EE0B52FB88F13008DA448 /* VCError.swift in Sources */,
+				BF9EE0B62FB88F13008DA448 /* VCCreationError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
