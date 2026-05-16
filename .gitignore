@@ -5,6 +5,7 @@ Packages/
 
 # Xcode
 build/
+.swiftpm/
 DerivedData/
 *.xcuserstate
 xcuserdata/
@@ -14,6 +15,7 @@ xcuserdata/
 *.ipa
 *.pkg
 *.log
+*.xcodeproj/
 
 # macOS
 .DS_Store
