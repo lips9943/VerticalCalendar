@@ -105,7 +105,7 @@ You can create your own `ViewModel` or `CalendarManager` by conforming to `VCVie
 
 | Requirement | Minimal Version |
 | :---------- | :-------------- |
-| **iOS**     | 14.0+           |
+| **iOS**     | 16.0+           |
 | **Swift**   | 5.9+            |
 | **Xcode**   | 15.0+           |
 
