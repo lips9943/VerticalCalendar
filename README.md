@@ -1,7 +1,7 @@
 # VerticalCalendar 🗓️
 
 [![Swift](https://img.shields.io/badge/Swift-5.9+-orange.svg)](https://swift.org)
-[![iOS](https://img.shields.io/badge/iOS-14.0+-blue.svg)](https://developer.apple.com/ios/)
+[![iOS](https://img.shields.io/badge/iOS-16.0+-blue.svg)](https://developer.apple.com/ios/)
 [![Swift Package Manager](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://swift.org/package-manager/)
 
 A premium, highly customizable vertical scrolling calendar for iOS. Built with **UIKit** and **Compositional Layout**, it provides a smooth and modern user experience for date selection and schedule management.
@@ -34,7 +34,7 @@ Alternatively, add it directly to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/lips9943/VerticalCalendar.git", from: "1.0.0")
+    .package(url: "https://github.com/lips9943/VerticalCalendar.git", from: "1.0.2")
 ]
 ```
 
