@@ -6,7 +6,7 @@
 //
 import UIKit
 
-public actor VCIndexingManager {
+public struct VCIndexingManager {
     private let calendar: Calendar
     public init(calendar: Calendar) {
         self.calendar = calendar
