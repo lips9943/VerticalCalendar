@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import VerticalCalendar
 
 final class VCDefaultDay: VCDay {
     var calendar: Calendar

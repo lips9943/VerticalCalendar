@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import VerticalCalendar
 
 struct VCDefaultCalendarManager: VCCalendarManager {
     private var _startDate: Date

@@ -6,7 +6,8 @@
 //
 
 import Combine
-import UIKit
+import VerticalCalendar
+import Foundation
 
 class VCDefaultViewModel: VCViewModel {
     var calendar: Calendar
