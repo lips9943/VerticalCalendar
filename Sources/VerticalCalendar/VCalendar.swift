@@ -21,7 +21,6 @@ open class VCalendar: UICollectionViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        print(view.backgroundColor, collectionView.backgroundColor)
         self.collectionView.register(VCDayCell.self, forCellWithReuseIdentifier: VCDayCell.reuseIdentifier)
         self.collectionView.register(VCMonthReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: VCMonthReusableView.identifier)
         setDefaultYearView()
