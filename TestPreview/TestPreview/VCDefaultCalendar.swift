@@ -4,6 +4,7 @@
 //
 //  Created by 고혁준 on 9/2/25.
 //
+import VerticalCalendar
 
 final class VCDefaultCalendar: VCCalendar {
     var month: VCDefaultMonth

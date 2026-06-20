@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import VerticalCalendar
 
 final class VCDefaultMonth: VCMonth {
     var calendar: Calendar

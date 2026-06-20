@@ -9,6 +9,7 @@ import UIKit
 open class VCalendar: UICollectionViewController {
     private var isResetScroll: Bool = false
     private var yearview: VCYearView!
+    private var weekdayView: VCWeekDayView!
     
     public typealias ViewModel = any VCViewModel
     open var viewModel: ViewModel
@@ -20,7 +21,11 @@ open class VCalendar: UICollectionViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
+        print(view.backgroundColor, collectionView.backgroundColor)
+        self.collectionView.register(VCDayCell.self, forCellWithReuseIdentifier: VCDayCell.reuseIdentifier)
+        self.collectionView.register(VCMonthReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: VCMonthReusableView.identifier)
         setDefaultYearView()
+        setDefaultWeekdayView()
         collectionView.showsVerticalScrollIndicator = false
         self.collectionView.scrollsToTop = false
     }
@@ -32,6 +37,13 @@ open class VCalendar: UICollectionViewController {
     @MainActor
     private func setScrollAtToday(animated: Bool = false) {
         guard let indexPath = self.viewModel.indexManager.findToday(in: self.viewModel.calendars) else { return }
+        self.collectionView.scrollToItem(at: indexPath, at: .top, animated: animated)
+    }
+    
+    @MainActor
+    private func moveScrollAtMonthIndex(_ index: Int, animated: Bool = false) {
+        let lastIndex = viewModel.calendars[index].days.endIndex - 1
+        let indexPath = IndexPath(item: lastIndex, section: index)
         self.collectionView.scrollToItem(at: indexPath, at: .top, animated: animated)
     }
 }
@@ -65,11 +77,16 @@ extension VCalendar {
 }
 
 
-// MARK: - Year View Features
+// MARK: - Custom View Features
 extension VCalendar {
     private func setDefaultYearView() {
         self.yearview = VCYearView()
         self.yearview.configure(self.view)
+    }
+    
+    private func setDefaultWeekdayView() {
+        self.weekdayView = VCWeekDayView()
+        self.weekdayView.configure(with: self.view)
     }
     
     /// Year view appears when first or last month stuck on the View
@@ -80,6 +97,31 @@ extension VCalendar {
         if indexPath.row == halfOfDayIndex {
             self.yearview.update(with: calendar.month.date)
         }
+    }
+}
+
+// MARK: - VCMonthSelectionViewController Delegate
+extension VCalendar: VCMonthSelectionViewControllerDelegate {
+    public func getIndexOfMonth(date: Date, viewModelIndex index: Int) {
+        let monthIndex = index != 0 ? index - 1 : index
+        moveScrollAtMonthIndex(monthIndex)
+        yearview.update(with: date)
+    }
+    
+    @MainActor
+    public func presentMonthSelectionVC() {
+        let visibleIndexes = self.collectionView.indexPathsForVisibleItems
+        guard !visibleIndexes.isEmpty else { return }
+        let index: Int = visibleIndexes.count / 2
+        let visibleIndexPath = visibleIndexes[index]
+        let monthDate = viewModel.calendars[visibleIndexPath.section].month.date
+        let vc = VCMonthSelectionViewController(viewModel: viewModel, nearDate: monthDate)
+        vc.delegate = self
+        
+        let nvc = UINavigationController(rootViewController: vc)
+        nvc.modalPresentationStyle = .fullScreen
+        
+        self.present(nvc, animated: true)
     }
 }
 
