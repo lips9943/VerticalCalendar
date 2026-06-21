@@ -10,9 +10,11 @@ import UIKit
 open class VCMonthSelectionCell: UICollectionViewCell {
     private var monthLabel: UILabel!
     
-    static var cellReuseID: String { "yearSelectionCell-identifier" }
+    public var monthLabelView: UILabel! { monthLabel }
     
-    override init(frame: CGRect) {
+    public static var identifier: String { "MonthSelectionCell-identifier" }
+    
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         contentViewSetup()
         setMonthLabel()
@@ -20,7 +22,7 @@ open class VCMonthSelectionCell: UICollectionViewCell {
     
     public required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
-    public override func prepareForReuse() {
+    open override func prepareForReuse() {
         super.prepareForReuse()
         update()
     }
@@ -54,8 +56,8 @@ open class VCMonthSelectionCell: UICollectionViewCell {
         self.monthLabel.textColor = .label
     }
     
-    public func configure(date: Date, calendar: Calendar) {
+    open func configure(date: Date, calendar: any VCCalendar) {
         guard let month = date.month else { return }
-        self.monthLabel.text = calendar.shortMonthSymbols[month - 1]
+        self.monthLabel.text = calendar.month.calendar.shortMonthSymbols[month - 1]
     }
 }
