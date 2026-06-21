@@ -29,7 +29,7 @@ struct VCTestPreview: UIViewControllerRepresentable {
         nc.navigationBar.titleTextAttributes = [.font : UIFont.preferredFont(forTextStyle: .title1)]
         nc.navigationBar.topItem?.rightBarButtonItem =  UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
         nc.navigationBar.topItem?.leftBarButtonItem = .init(systemItem: .organize, primaryAction: .init(handler: { action in
-            vc.presentMonthSelectionVC()
+            vc.presentMonthSelectionVC(cellType: VCDefaultMonthSelectionCell.self)
         }))
         return nc
     }

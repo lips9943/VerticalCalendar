@@ -5,6 +5,8 @@
 //  Created by 고혁준 on 8/18/25.
 //
 import UIKit
+import Hero
+
 #if os(iOS)
 open class VCalendar: UICollectionViewController {
     private var isResetScroll: Bool = false
@@ -21,7 +23,8 @@ open class VCalendar: UICollectionViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        print(view.backgroundColor, collectionView.backgroundColor)
+        self.view.hero.isEnabled = true
+        self.view.hero.id = "calendar"
         self.collectionView.register(VCDayCell.self, forCellWithReuseIdentifier: VCDayCell.reuseIdentifier)
         self.collectionView.register(VCMonthReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: VCMonthReusableView.identifier)
         setDefaultYearView()
@@ -109,7 +112,7 @@ extension VCalendar: VCMonthSelectionViewControllerDelegate {
     }
     
     @MainActor
-    public func presentMonthSelectionVC() {
+    public func presentMonthSelectionVC(cellType: VCMonthSelectionCell.Type = VCMonthSelectionCell.self) {
         let visibleIndexes = self.collectionView.indexPathsForVisibleItems
         guard !visibleIndexes.isEmpty else { return }
         let index: Int = visibleIndexes.count / 2
@@ -117,8 +120,10 @@ extension VCalendar: VCMonthSelectionViewControllerDelegate {
         let monthDate = viewModel.calendars[visibleIndexPath.section].month.date
         let vc = VCMonthSelectionViewController(viewModel: viewModel, nearDate: monthDate)
         vc.delegate = self
-        
+        vc.collectionView.register(cellType, forCellWithReuseIdentifier: cellType.identifier)
         let nvc = UINavigationController(rootViewController: vc)
+        nvc.hero.isEnabled = true
+        nvc.hero.modalAnimationType = .fade
         nvc.modalPresentationStyle = .fullScreen
         
         self.present(nvc, animated: true)

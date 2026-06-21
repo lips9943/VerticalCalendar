@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import VerticalCalendar
 
 final class VCDefaultDay: VCDay {
@@ -13,6 +14,7 @@ final class VCDefaultDay: VCDay {
     var locale: Locale
     private var _date: Date
     var date: Date { _date }
+    var image: UIImage?
     
     private var _isPrevMonthDay: Bool
     var isPrevMonthDay: Bool { _isPrevMonthDay }

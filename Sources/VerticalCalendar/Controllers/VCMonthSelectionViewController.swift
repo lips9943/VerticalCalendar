@@ -10,7 +10,7 @@ protocol VCMonthSelectionViewControllerDelegate {
     func getIndexOfMonth(date: Date, viewModelIndex index: Int)
 }
 
-class VCMonthSelectionViewController: UICollectionViewController {
+public class VCMonthSelectionViewController: UICollectionViewController {
     typealias ViewModel = any VCViewModel
     private var viewModel: ViewModel
     
@@ -18,10 +18,12 @@ class VCMonthSelectionViewController: UICollectionViewController {
     
     private var monthForYears: [[Date]] = []
     private let scrollToIndex: IndexPath
+    private let nearDate: Date?
+    private var heroIndexPath: IndexPath?
     
     init(viewModel: ViewModel, nearDate: Date? = nil) {
         self.viewModel = viewModel
-        
+        self.nearDate = nearDate
         //
         var currentYear: Date?
         var monthes: [Date] = []
@@ -53,42 +55,59 @@ class VCMonthSelectionViewController: UICollectionViewController {
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
-        self.collectionView.register(MonthSelectionCell.self, forCellWithReuseIdentifier: MonthSelectionCell.cellReuseID)
-        self.collectionView.register(YearView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: YearView.reuseId)
+        hero.isEnabled = true
+        self.collectionView.register(VCMonthSelectionYearReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: VCMonthSelectionYearReusableView.reuseId)
         self.navigationItem.leftBarButtonItem = .init(barButtonSystemItem: .close, target: self, action: #selector(close))
     }
     
-    override func viewIsAppearing(_ animated: Bool) {
+    public override func viewIsAppearing(_ animated: Bool) {
         super.viewIsAppearing(animated)
         self.collectionView.scrollToItem(at: scrollToIndex, at: .top, animated: false)
     }
     
     @objc func close() {
+        if let heroIndexPath {
+            let cell = self.collectionView.cellForItem(at: heroIndexPath) as? VCMonthSelectionCell
+            cell?.prepareForReuse()
+        }
+        
         self.dismiss(animated: true)
     }
 }
 
 // MARK: - Data Source
 extension VCMonthSelectionViewController {
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public override func numberOfSections(in collectionView: UICollectionView) -> Int {
         monthForYears.count
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return monthForYears[section].count
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MonthSelectionCell.cellReuseID, for: indexPath) as? MonthSelectionCell else { return UICollectionViewCell() }
+    public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard indexPath.section < monthForYears.count,
+              indexPath.item < monthForYears[indexPath.section].count else { return UICollectionViewCell() }
         let month = monthForYears[indexPath.section][indexPath.item]
-        cell.configure(date: month, calendar: viewModel.calendarManager.calendar)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VCMonthSelectionCell.identifier, for: indexPath) as? VCMonthSelectionCell,
+              let calendarIndex = viewModel.indexManager.findIndex(ofMonth: month, in: viewModel.calendars) else { return UICollectionViewCell() }
+        
+        cell.configure(date: month, calendar: viewModel.calendars[calendarIndex])
+        
+        
+        
+        if nearDate == month {
+            cell.hero.id = "calendar"
+            heroIndexPath = indexPath
+        }
+        
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: YearView.reuseId, for: indexPath) as? YearView else { return UICollectionReusableView() }
+    public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: VCMonthSelectionYearReusableView.reuseId, for: indexPath) as? VCMonthSelectionYearReusableView else { return UICollectionReusableView() }
         guard let year = monthForYears[indexPath.section].first else { return view }
         view.configure(date: year)
         return view
@@ -97,7 +116,7 @@ extension VCMonthSelectionViewController {
 
 // MARK: - Delegate
 extension VCMonthSelectionViewController {
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let delegate else { return }
         guard indexPath.section < monthForYears.count, indexPath.item < monthForYears[indexPath.section].count else { return }
         let month = monthForYears[indexPath.section][indexPath.item]
@@ -106,25 +125,43 @@ extension VCMonthSelectionViewController {
         dismiss(animated: true)
         delegate.getIndexOfMonth(date: month, viewModelIndex: index)
     }
+    
+    public override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        let willCell = collectionView.cellForItem(at: indexPath) as? VCMonthSelectionCell
+        if let heroIndexPath, indexPath != heroIndexPath {
+            let cell = collectionView.cellForItem(at: heroIndexPath)
+            cell?.hero.id = nil
+            
+            willCell?.hero.id = "calendar"
+        }
+        
+        willCell?.prepareForReuse()
+        return true
+    }
 }
 
 // MARK: - Layout
-extension VCMonthSelectionViewController {
+extension VCMonthSelectionViewController: UICollectionViewDelegateFlowLayout {
     private static var layout: UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         let size = UIScreen.main.bounds
         layout.scrollDirection = .vertical
+        
         layout.minimumLineSpacing = 15
-        layout.minimumInteritemSpacing = 15
-        layout.itemSize = CGSize(width: size.width / 3.3, height: size.height / 10)
+        layout.minimumInteritemSpacing = 10
+        layout.itemSize = CGSize(width: size.width / 3.4, height: size.height / 9)
         layout.headerReferenceSize = CGSize(width: size.width, height: size.height / 10)
         return layout
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .init(top: 0, left: 10, bottom: 0, right: 10)
     }
 }
 
 // MARK: - Su
 extension VCMonthSelectionViewController {
-    class YearView: UICollectionReusableView {
+    class VCMonthSelectionYearReusableView: UICollectionReusableView {
         static var reuseId: String { "yearSelection-identifier" }
         private var yearLabel: UILabel!
         
@@ -137,6 +174,7 @@ extension VCMonthSelectionViewController {
         required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
         
         override func prepareForReuse() {
+            super.prepareForReuse()
             self.yearLabel.text = nil
         }
         
@@ -165,60 +203,3 @@ extension VCMonthSelectionViewController {
         }
     }
 }
-// MARK: - Cell
-extension VCMonthSelectionViewController {
-    class MonthSelectionCell: UICollectionViewCell {
-        private var monthLabel: UILabel!
-        
-        static var cellReuseID: String { "yearSelectionCell-identifier" }
-        
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            contentViewSetup()
-            setMonthLabel()
-        }
-        
-        required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
-        
-        override func prepareForReuse() {
-            super.prepareForReuse()
-        }
-        
-        private func contentViewSetup() {
-            let cv = self.contentView
-            cv.backgroundColor = .secondarySystemBackground
-            cv.layer.cornerRadius = 15
-        }
-        
-        private func setMonthLabel() {
-            let label = UILabel()
-            label.numberOfLines = 1
-            label.font = .preferredFont(forTextStyle: .title2)
-            label.highlightedTextColor = .red
-            label.textAlignment = .center
-            label.translatesAutoresizingMaskIntoConstraints = false
-            
-            monthLabel = label
-            
-            self.contentView.addSubview(label)
-            
-            NSLayoutConstraint.activate([
-                label.topAnchor.constraint(equalTo: topAnchor),
-                label.bottomAnchor.constraint(equalTo: bottomAnchor),
-                label.leadingAnchor.constraint(equalTo: leadingAnchor),
-                label.trailingAnchor.constraint(equalTo: trailingAnchor),
-            ])
-        }
-        
-        private func update() {
-            self.monthLabel.text = nil
-            self.monthLabel.textColor = .label
-        }
-        
-        func configure(date: Date, calendar: Calendar) {
-            guard let month = date.month else { return }
-            self.monthLabel.text = calendar.shortMonthSymbols[month - 1]
-        }
-    }
-}
-
