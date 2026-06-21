@@ -30,6 +30,8 @@ open class VCMonthSelectionCell: UICollectionViewCell {
     private func contentViewSetup() {
         let cv = self.contentView
         cv.backgroundColor = .secondarySystemBackground
+        cv.clipsToBounds = true
+        cv.layer.masksToBounds = true
         cv.layer.cornerRadius = 15
     }
     

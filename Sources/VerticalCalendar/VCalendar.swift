@@ -30,7 +30,7 @@ open class VCalendar: UICollectionViewController {
         setDefaultYearView()
         setDefaultWeekdayView()
         collectionView.showsVerticalScrollIndicator = false
-        self.collectionView.scrollsToTop = false
+        collectionView.scrollsToTop = false
     }
     
     required public init?(coder: NSCoder) {

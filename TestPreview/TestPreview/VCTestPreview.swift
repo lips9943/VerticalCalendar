@@ -11,6 +11,8 @@ import SwiftUI
 import VerticalCalendar
 
 struct VCTestPreview: UIViewControllerRepresentable {
+    @Binding var presentMonthSelectionVC: Bool
+    
     var cm: VCDefaultCalendarManager {
         let calendar = Calendar.current
         let date = Date()
@@ -21,7 +23,7 @@ struct VCTestPreview: UIViewControllerRepresentable {
     
     var vm: VCDefaultViewModel { VCDefaultViewModel(calendarManager: cm) }
     
-    func makeUIViewController(context: Context) -> some UIViewController {
+    func makeUIViewController(context: Context) -> some UINavigationController {
         let vc = VCalendar(viewModel: vm)
         vc.title = "Calendar"
         let nc = UINavigationController(rootViewController: vc)
@@ -35,15 +37,32 @@ struct VCTestPreview: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        guard let vc = uiViewController.topViewController as? VCalendar else { return }
+        if presentMonthSelectionVC {
+            vc.presentMonthSelectionVC(cellType: VCDefaultMonthSelectionCell.self)
+            presentMonthSelectionVC = false
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
+    }
+    
+    class Coordinator: NSObject {
+        var parent: VCTestPreview
         
+        init(_ parent: VCTestPreview) {
+            self.parent = parent
+        }
     }
 }
 
 
 @available(iOS 18.0, watchOS 11.0, *)
 #Preview {
+    @Previewable @State var presentMonthSelectionVC: Bool = true
     #if os(iOS)
-    VCTestPreview()
+    VCTestPreview(presentMonthSelectionVC: $presentMonthSelectionVC)
     #elseif os(watchOS)
     // Add watchOS preview if needed
     Text("Watch Preview")
