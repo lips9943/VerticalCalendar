@@ -12,12 +12,17 @@ let package = Package(
             targets: ["VerticalCalendar"]),
     ],
     dependencies: [
-        // No external dependencies for now
+        .package(
+            url: "https://github.com/HeroTransitions/Hero.git",
+            .upToNextMajor(from: "1.6.3")
+        )
     ],
     targets: [
         .target(
             name: "VerticalCalendar",
-            dependencies: [],
+            dependencies: [
+                .product(name: "Hero", package: "Hero")
+            ],
             path: "Sources/VerticalCalendar"
         ),
     ]
