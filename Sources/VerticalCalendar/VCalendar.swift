@@ -12,6 +12,7 @@ open class VCalendar: UICollectionViewController {
     private var isResetScroll: Bool = false
     private var yearview: VCYearView!
     private var weekdayView: VCWeekDayView!
+    private var loadingView = VCLoadingView()
     
     public typealias ViewModel = any VCViewModel
     open var viewModel: ViewModel
@@ -29,6 +30,7 @@ open class VCalendar: UICollectionViewController {
         self.collectionView.register(VCMonthReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: VCMonthReusableView.identifier)
         setDefaultYearView()
         setDefaultWeekdayView()
+        setActivityIndicator()
         collectionView.showsVerticalScrollIndicator = false
         collectionView.scrollsToTop = false
     }
@@ -100,6 +102,25 @@ extension VCalendar {
         if indexPath.row == halfOfDayIndex {
             self.yearview.update(with: calendar.month.date)
         }
+    }
+}
+
+// MARK: - Managing Loading
+extension VCalendar {
+    public var isLoading: Bool {
+        get { loadingView.isLoading }
+        set {
+            guard loadingView.isLoading != newValue else { return }
+            if newValue {
+                loadingView.startLoading()
+            } else {
+                loadingView.stopLoading()
+            }
+        }
+    }
+    
+    private func setActivityIndicator() {
+        self.loadingView.configure(calendar: self)
     }
 }
 

@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var tabIndex: Int = 0
     @State var isCalendar: Bool = true
     @State var calendarDoubleTabbed: Bool = false
+    @State var isLoading: Bool = true
     
     var body: some View {
         let selection = Binding<Int>(
@@ -20,7 +21,6 @@ struct ContentView: View {
             set: { index, t in
                 if index == 0 && isCalendar {
                     calendarDoubleTabbed = true
-                    print("double")
                     return
                 }
                 
@@ -32,7 +32,11 @@ struct ContentView: View {
         
         TabView(selection: selection) {
             Tab(value: 0) {
-                VCTestPreview(presentMonthSelectionVC: $calendarDoubleTabbed)
+                VCTestPreview(presentMonthSelectionVC: $calendarDoubleTabbed, isLoading: $isLoading)
+                    .task {
+                        try? await Task.sleep(for: .seconds(5))
+                        isLoading = false
+                    }
             } label: {
                 Text("Calendar")
             }
@@ -40,14 +44,14 @@ struct ContentView: View {
             Tab(value: 1) {
                 Text("hi")
             } label: {
-                Text("더미")
+                Text("Hello")
             }
             
             
             Tab(value: 2) {
-                Text("ds")
+                Text("Profile")
             } label: {
-                Text("dasdf")
+                Text("Profile")
             }
         }
     }

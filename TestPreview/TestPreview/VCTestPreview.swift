@@ -12,6 +12,7 @@ import VerticalCalendar
 
 struct VCTestPreview: UIViewControllerRepresentable {
     @Binding var presentMonthSelectionVC: Bool
+    @Binding var isLoading: Bool
     
     var cm: VCDefaultCalendarManager {
         let calendar = Calendar.current
@@ -25,6 +26,7 @@ struct VCTestPreview: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> some UINavigationController {
         let vc = VCalendar(viewModel: vm)
+        vc.isLoading = isLoading
         vc.title = "Calendar"
         let nc = UINavigationController(rootViewController: vc)
         nc.navigationBar.prefersLargeTitles = false
@@ -42,6 +44,8 @@ struct VCTestPreview: UIViewControllerRepresentable {
             vc.presentMonthSelectionVC(cellType: VCDefaultMonthSelectionCell.self)
             presentMonthSelectionVC = false
         }
+        
+        vc.isLoading = isLoading
     }
     
     func makeCoordinator() -> Coordinator {
@@ -58,14 +62,15 @@ struct VCTestPreview: UIViewControllerRepresentable {
 }
 
 
-@available(iOS 18.0, watchOS 11.0, *)
-#Preview {
-    @Previewable @State var presentMonthSelectionVC: Bool = true
-    #if os(iOS)
-    VCTestPreview(presentMonthSelectionVC: $presentMonthSelectionVC)
-    #elseif os(watchOS)
-    // Add watchOS preview if needed
-    Text("Watch Preview")
-    #endif   
-}
+//@available(iOS 18.0, watchOS 11.0, *)
+//#Preview {
+//    @Previewable @State var presentMonthSelectionVC: Bool = false
+//    @Previewable @State var isLoading: Bool = false
+//    #if os(iOS)
+//    VCTestPreview(presentMonthSelectionVC: $presentMonthSelectionVC, isLoading: $isLoading)
+//    #elseif os(watchOS)
+//    // Add watchOS preview if needed
+//    Text("Watch Preview")
+//    #endif   
+//}
 #endif
