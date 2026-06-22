@@ -42,8 +42,15 @@ extension Date {
     }
     
     fileprivate func currentDate() -> DateModel {
-        let dateFormat = self.formatted(date: .numeric, time: .standard)
-        let dates = dateFormat.split(separator: ",")[0].split(separator: "/").compactMap { String($0) }
+        let formatter = DateFormatter()
+
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+
+        formatter.dateFormat = "MM/dd/yyyy"
+
+        let dateString = formatter.string(from: self)
+
+        let dates = dateString.split(separator: "/").compactMap { String($0) }
         let result = DateModel(year: dates[2], month: dates[0], day: dates[1])
         return result
     }
