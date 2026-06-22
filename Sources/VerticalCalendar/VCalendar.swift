@@ -107,17 +107,20 @@ extension VCalendar {
 
 // MARK: - Managing Loading
 extension VCalendar {
-    private func setActivityIndicator() {
-        self.loadingView.configure(calendar: self)
+    public var isLoading: Bool {
+        get { loadingView.isLoading }
+        set {
+            guard loadingView.isLoading != newValue else { return }
+            if newValue {
+                loadingView.startLoading()
+            } else {
+                loadingView.stopLoading()
+            }
+        }
     }
     
-    public func loadingView(activation: Bool) {
-        guard loadingView.isLoading != activation else { return }
-        if activation {
-            loadingView.startLoading()
-        } else {
-            loadingView.stopLoading()
-        }
+    private func setActivityIndicator() {
+        self.loadingView.configure(calendar: self)
     }
 }
 

@@ -26,7 +26,7 @@ struct VCTestPreview: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> some UINavigationController {
         let vc = VCalendar(viewModel: vm)
-        vc.loadingView(activation: true)
+        vc.isLoading = isLoading
         vc.title = "Calendar"
         let nc = UINavigationController(rootViewController: vc)
         nc.navigationBar.prefersLargeTitles = false
@@ -45,7 +45,7 @@ struct VCTestPreview: UIViewControllerRepresentable {
             presentMonthSelectionVC = false
         }
         
-        vc.loadingView(activation: isLoading)
+        vc.isLoading = isLoading
     }
     
     func makeCoordinator() -> Coordinator {
