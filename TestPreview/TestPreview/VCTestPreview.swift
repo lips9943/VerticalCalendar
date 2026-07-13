@@ -35,6 +35,7 @@ struct VCTestPreview: UIViewControllerRepresentable {
         nc.navigationBar.topItem?.leftBarButtonItem = .init(systemItem: .organize, primaryAction: .init(handler: { action in
             vc.presentMonthSelectionVC(cellType: VCDefaultMonthSelectionCell.self)
         }))
+        
         return nc
     }
     
@@ -63,14 +64,14 @@ struct VCTestPreview: UIViewControllerRepresentable {
 
 
 //@available(iOS 18.0, watchOS 11.0, *)
-//#Preview {
-//    @Previewable @State var presentMonthSelectionVC: Bool = false
-//    @Previewable @State var isLoading: Bool = false
-//    #if os(iOS)
-//    VCTestPreview(presentMonthSelectionVC: $presentMonthSelectionVC, isLoading: $isLoading)
-//    #elseif os(watchOS)
-//    // Add watchOS preview if needed
-//    Text("Watch Preview")
-//    #endif   
-//}
+#Preview {
+    @Previewable @State var presentMonthSelectionVC: Bool = false
+    @Previewable @State var isLoading: Bool = false
+    #if os(iOS)
+    VCTestPreview(presentMonthSelectionVC: $presentMonthSelectionVC, isLoading: $isLoading)
+    #elseif os(watchOS)
+    // Add watchOS preview if needed
+    Text("Watch Preview")
+    #endif   
+}
 #endif

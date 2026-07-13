@@ -7,8 +7,8 @@
 
 import UIKit
 
+
 class VCWeekDayView: UIView {
-    private var visualView: UIVisualEffectView!
     private var stackView: UIStackView!
     private var weekLabels: [UILabel] = {
         return (0..<7).map { _ in UILabel() }
@@ -17,10 +17,8 @@ class VCWeekDayView: UIView {
     init() {
         super.init(frame: .zero)
         self.translatesAutoresizingMaskIntoConstraints = false
-//        setupVisualView()
         setupStackView()
         setupLabelViews()
-        
     }
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -51,43 +49,29 @@ class VCWeekDayView: UIView {
             label.text = weekday
             label.textAlignment = .center
             label.numberOfLines = 1
-            label.font = .preferredFont(forTextStyle: .caption1)
+            label.font = .monospacedDigitSystemFont(ofSize: 12, weight: .bold)
+            label.layer.masksToBounds = false
+            
+            label.layer.shadowColor = UIColor.label.cgColor
+            label.layer.shadowOpacity = 0.15
+            label.layer.shadowOffset = .init(width: 0.5, height: 2)
             self.stackView.addArrangedSubview(label)
             if index == 0 || index == 6 {
-                label.textColor = .systemGray.withAlphaComponent(0.7)
+                label.textColor = .systemGray.withAlphaComponent(0.9)
             } else {
-                label.textColor = .label.withAlphaComponent(0.7)
+                label.textColor = .label.withAlphaComponent(0.9)
             }
         }
     }
     
-    private func setupVisualView() {
-        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialLight)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-
-        blurView.translatesAutoresizingMaskIntoConstraints = false
-        blurView.alpha = 0.3
-        blurView.backgroundColor = .clear
-        self.addSubview(blurView)
-
-        NSLayoutConstraint.activate([
-            blurView.topAnchor.constraint(equalTo: topAnchor),
-            blurView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            blurView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            blurView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
-    }
-    
     func configure(with view: UIView) {
-        let screenBounds: CGRect = UIScreen.main.bounds
-        
         view.addSubview(self)
         
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            topAnchor.constraint(equalTo: view.bottomAnchor),
             leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            heightAnchor.constraint(equalToConstant: screenBounds.height * 0.02)
+            heightAnchor.constraint(equalToConstant: 30)
         ])
     }
 }

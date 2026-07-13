@@ -33,7 +33,6 @@ class VCYearView: UILabel {
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize(width: -3, height: 1.5)
         self.layer.shadowOpacity = 5
-//        self.layer.shadowRadius = 1.0
     }
     
     func update(with date: Date) {
