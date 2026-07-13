@@ -68,7 +68,7 @@ class VCWeekDayView: UIView {
         view.addSubview(self)
         
         NSLayoutConstraint.activate([
-            topAnchor.constraint(equalTo: view.bottomAnchor),
+            topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trailingAnchor.constraint(equalTo: view.trailingAnchor),
             heightAnchor.constraint(equalToConstant: 30)
