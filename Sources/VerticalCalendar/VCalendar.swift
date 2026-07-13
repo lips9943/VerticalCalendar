@@ -11,7 +11,32 @@ import Hero
 open class VCalendar: UICollectionViewController {
     private var isResetScroll: Bool = false
     private var yearview: VCYearView!
+    private var weekdayView: VCWeekDayView!
     private var loadingView = VCLoadingView()
+    
+    public var isWeekdayViewAble: Bool = true {
+        didSet {
+            if isWeekdayViewAble {
+                guard weekdayView == nil else { return }
+                setDefaultWeekdayView()
+            } else {
+                guard weekdayView != nil else { return }
+                weekdayView.removeFromSuperview()
+            }
+        }
+    }
+    
+    public var isYearViewAble: Bool = true {
+        didSet {
+            if isYearViewAble {
+                guard yearview == nil else { return }
+                setDefaultYearView()
+            } else {
+                guard yearview != nil else { return }
+                yearview.removeFromSuperview()
+            }
+        }
+    }
     
     public typealias ViewModel = any VCViewModel
     open var viewModel: ViewModel
@@ -89,11 +114,9 @@ extension VCalendar {
     }
     
     private func setDefaultWeekdayView() {
-        if let naviBar = navigationController?.navigationBar {
-            let weekdayView = VCWeekDayView()
-            naviBar.addSubview(weekdayView)
-            weekdayView.configure(with: naviBar)
-        }
+        self.weekdayView = VCWeekDayView()
+        view.addSubview(weekdayView)
+        weekdayView.configure(with: view)
     }
     
     /// Year view appears when first or last month stuck on the View
