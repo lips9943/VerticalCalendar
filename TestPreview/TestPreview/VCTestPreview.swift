@@ -62,7 +62,6 @@ struct VCTestPreview: UIViewControllerRepresentable {
     }
 }
 
-
 //@available(iOS 18.0, watchOS 11.0, *)
 #Preview {
     @Previewable @State var presentMonthSelectionVC: Bool = false
