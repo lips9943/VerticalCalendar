@@ -13,6 +13,10 @@ public class VCWeekDayView: UIView {
         return (0..<7).map { _ in UILabel() }
     }()
     
+    private var bottomLine: UIView?
+    private var blurView: UIVisualEffectView?
+    
+    
     public init() {
         super.init(frame: .zero)
         self.backgroundColor = .clear
@@ -49,7 +53,7 @@ public class VCWeekDayView: UIView {
             label.text = weekday
             label.textAlignment = .center
             label.numberOfLines = 1
-            label.font = .monospacedDigitSystemFont(ofSize: 12, weight: .medium)
+            label.font = .monospacedDigitSystemFont(ofSize: 10, weight: .medium)
             label.layer.masksToBounds = false
             
             label.layer.shadowColor = UIColor.label.cgColor
@@ -62,6 +66,52 @@ public class VCWeekDayView: UIView {
                 label.textColor = .label.withAlphaComponent(0.9)
             }
         }
+    }
+    
+    public func setBlur(with style: UIBlurEffect.Style) {
+        self.blurView?.removeFromSuperview()
+        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: style))
+        blurView.clipsToBounds = true
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        addSubview(blurView)
+        sendSubviewToBack(blurView)
+        
+        NSLayoutConstraint.activate([
+            blurView.topAnchor.constraint(equalTo: topAnchor),
+            blurView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            blurView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            blurView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+        self.blurView = blurView
+        setBottomBorder()
+    }
+    
+    public func setBackgroundColor(_ color: UIColor) {
+        self.backgroundColor = color
+        
+    }
+    
+    public func setBottomBorder() {
+        self.bottomLine?.removeFromSuperview()
+        let l = UIView()
+        
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.backgroundColor = .secondarySystemBackground
+        
+        addSubview(l)
+        bringSubviewToFront(l)
+        
+        NSLayoutConstraint.activate([
+            l.topAnchor.constraint(equalTo: stackView.bottomAnchor),
+            l.leadingAnchor.constraint(equalTo: leadingAnchor),
+            l.trailingAnchor.constraint(equalTo: trailingAnchor),
+            l.heightAnchor.constraint(equalToConstant: 1.5)
+        ])
+        
+        bottomLine = l
     }
     
     public func configure(with view: UIView) {

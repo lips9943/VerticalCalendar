@@ -57,6 +57,8 @@ public class VCMonthSelectionViewController: UICollectionViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        collectionView.backgroundColor = .systemBackground
         hero.isEnabled = true
         self.collectionView.register(VCMonthSelectionYearReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: VCMonthSelectionYearReusableView.reuseId)
         self.navigationItem.leftBarButtonItem = .init(barButtonSystemItem: .close, target: self, action: #selector(close))

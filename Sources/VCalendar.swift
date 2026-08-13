@@ -11,10 +11,8 @@ import Hero
 open class VCalendar: UICollectionViewController {
     private var isResetScroll: Bool = false
     private var yearview: VCYearView!
-    private var weekdayView: VCWeekDayView!
-    private var loadingView: VCLoadingView!
-    
-    
+    public private(set) var weekdayView: VCWeekDayView!
+    public private(set) var loadingView: VCLoadingView!
     
     public typealias ViewModel = any VCViewModel
     open var viewModel: ViewModel
@@ -22,6 +20,9 @@ open class VCalendar: UICollectionViewController {
     public init(viewModel: ViewModel) {
         self.viewModel = viewModel
         super.init(collectionViewLayout: Self.createCompositionalLayout())
+        self.yearview = VCYearView()
+        self.weekdayView = VCWeekDayView()
+        self.loadingView = VCLoadingView()
     }
     
     open override func viewDidLoad() {
@@ -115,7 +116,6 @@ extension VCalendar {
 // MARK: - WeekView Configuration
 extension VCalendar {
     private func setDefaultWeekdayView() {
-        self.weekdayView = VCWeekDayView()
         view.addSubview(weekdayView)
         weekdayView.configure(with: view)
     }
@@ -160,10 +160,8 @@ extension VCalendar {
     }
     
     private func setActivityIndicator() {
-        let loadingView = VCLoadingView()
         loadingView.configureIndicator()
         loadingView.configure(calendar: self)
-        self.loadingView = loadingView
     }
 }
 
