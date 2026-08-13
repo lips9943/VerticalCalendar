@@ -14,29 +14,7 @@ open class VCalendar: UICollectionViewController {
     private var weekdayView: VCWeekDayView!
     private var loadingView = VCLoadingView()
     
-    public var isWeekdayViewAble: Bool = true {
-        didSet {
-            if isWeekdayViewAble {
-                guard weekdayView == nil else { return }
-                setDefaultWeekdayView()
-            } else {
-                guard weekdayView != nil else { return }
-                weekdayView.removeFromSuperview()
-            }
-        }
-    }
     
-    public var isYearViewAble: Bool = true {
-        didSet {
-            if isYearViewAble {
-                guard yearview == nil else { return }
-                setDefaultYearView()
-            } else {
-                guard yearview != nil else { return }
-                yearview.removeFromSuperview()
-            }
-        }
-    }
     
     public typealias ViewModel = any VCViewModel
     open var viewModel: ViewModel
@@ -106,17 +84,21 @@ extension VCalendar {
 }
 
 
-// MARK: - Custom View Features
+// MARK: - Year View Features
 extension VCalendar {
+    public func isYearViewActive(_ active: Bool) {
+        if active {
+            guard yearview == nil else { return }
+            setDefaultYearView()
+        } else {
+            guard yearview != nil else { return }
+            yearview.removeFromSuperview()
+        }
+    }
+    
     private func setDefaultYearView() {
         self.yearview = VCYearView()
         self.yearview.configure(self.view)
-    }
-    
-    private func setDefaultWeekdayView() {
-        self.weekdayView = VCWeekDayView()
-        view.addSubview(weekdayView)
-        weekdayView.configure(with: view)
     }
     
     /// Year view appears when first or last month stuck on the View
@@ -130,18 +112,46 @@ extension VCalendar {
     }
 }
 
+// MARK: - WeekView Configuration
+extension VCalendar {
+    private func setDefaultWeekdayView() {
+        self.weekdayView = VCWeekDayView()
+        view.addSubview(weekdayView)
+        weekdayView.configure(with: view)
+    }
+    
+    public func isWeekdayActive(_ active: Bool) {
+        if active {
+            guard weekdayView == nil else { return }
+            setDefaultWeekdayView()
+        } else {
+            guard weekdayView != nil else { return }
+            weekdayView.removeFromSuperview()
+        }
+    }
+    
+    public func weekDayViewBackground(color: UIColor) {
+        guard color != weekdayView.backgroundColor else { return }
+        weekdayView.backgroundColor = color
+    }
+}
+
 // MARK: - Managing Loading
 extension VCalendar {
-    public var isLoading: Bool {
+    public var isLoading: String? {
         get { loadingView.isLoading }
-        set {
-            guard loadingView.isLoading != newValue else { return }
-            if newValue {
-                loadingView.startLoading()
-            } else {
-                loadingView.stopLoading()
-            }
-        }
+        set { loadingView.setLoading(title: newValue) }
+    }
+    
+    public func setLoadingView(_ view: UIView) {
+        loadingView.loadingComponent?.removeFromSuperview()
+        loadingView.loadingComponent = view
+        
+        loadingView.addSubview(view)
+        NSLayoutConstraint.activate([
+            view.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            view.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
     }
     
     private func setActivityIndicator() {
@@ -216,6 +226,7 @@ extension VCalendar {
 extension VCalendar {
     open override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let y = scrollView.contentOffset.y
+        // move yearView
         guard y < 0, !isResetScroll else { return }
         let date = Date()
         isResetScroll = true

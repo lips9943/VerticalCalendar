@@ -5,17 +5,17 @@
 //  Created by 고혁준 on 6/18/26.
 //
 
-import UIKit
+import SwiftUI
 
-
-class VCWeekDayView: UIView {
+public class VCWeekDayView: UIView {
     private var stackView: UIStackView!
     private var weekLabels: [UILabel] = {
         return (0..<7).map { _ in UILabel() }
     }()
     
-    init() {
+    public init() {
         super.init(frame: .zero)
+        self.backgroundColor = .clear
         self.translatesAutoresizingMaskIntoConstraints = false
         setupStackView()
         setupLabelViews()
@@ -49,7 +49,7 @@ class VCWeekDayView: UIView {
             label.text = weekday
             label.textAlignment = .center
             label.numberOfLines = 1
-            label.font = .monospacedDigitSystemFont(ofSize: 12, weight: .bold)
+            label.font = .monospacedDigitSystemFont(ofSize: 12, weight: .medium)
             label.layer.masksToBounds = false
             
             label.layer.shadowColor = UIColor.label.cgColor
@@ -64,14 +64,13 @@ class VCWeekDayView: UIView {
         }
     }
     
-    func configure(with view: UIView) {
+    public func configure(with view: UIView) {
         view.addSubview(self)
         
         NSLayoutConstraint.activate([
             topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            heightAnchor.constraint(equalToConstant: 30)
         ])
     }
 }

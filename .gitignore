@@ -2,6 +2,7 @@
 .build/
 Packages/
 .swiftpm/
+Package.resolved
 
 # Xcode
 build/

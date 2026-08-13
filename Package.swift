@@ -23,7 +23,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Hero", package: "Hero")
             ],
-            path: "Sources/VerticalCalendar"
+            path: "Sources"
         ),
     ]
 )

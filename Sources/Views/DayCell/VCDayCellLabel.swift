@@ -24,6 +24,7 @@ class VCDayCellLabel: UILabel {
     func configure(with model: any VCDay) {
         guard !model.isPrevMonthDay else { return }
         self.isHidden = false
+        self.alpha = 1
         self.text = String(model.day)
         self.setTodayLabel(model)
         if model.calendar.isDateInWeekend(model.date) {
@@ -34,6 +35,7 @@ class VCDayCellLabel: UILabel {
     }
     
     func prepare() {
+        self.alpha = 1
         self.isHidden = true
         self.text = nil
         self.textColor = .clear
