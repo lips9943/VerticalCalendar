@@ -12,7 +12,7 @@ open class VCalendar: UICollectionViewController {
     private var isResetScroll: Bool = false
     private var yearview: VCYearView!
     private var weekdayView: VCWeekDayView!
-    private var loadingView: UIView & LoadingSet = VCLoadingView()
+    private var loadingView: VCLoadingView!
     
     
     
@@ -143,8 +143,8 @@ extension VCalendar {
         set { loadingView.setLoading(value: newValue) }
     }
     
-    public func setLoadingView(_ view: UIView & LoadingSet) {
-        loadingView.removeFromSuperview()
+    public func setLoadingView(_ view: some VCLoadingView) {
+        loadingView?.removeFromSuperview()
         
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -155,11 +155,15 @@ extension VCalendar {
             view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])
+        
         loadingView = view
     }
     
     private func setActivityIndicator() {
-        self.loadingView.configure(calendar: self)
+        let loadingView = VCLoadingView()
+        loadingView.configureIndicator()
+        loadingView.configure(calendar: self)
+        self.loadingView = loadingView
     }
 }
 
