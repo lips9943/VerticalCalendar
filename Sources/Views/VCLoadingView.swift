@@ -5,40 +5,42 @@
 //  Created by 고혁준 on 6/22/26.
 //
 import UIKit
+public protocol LoadingSet {
+    func setLoading(value: Bool)
+    func configure(calendar: some VCalendar)
+}
 
-class VCLoadingView: UIView {
+class VCLoadingView: UIView, LoadingSet {
     private weak var vc: VCalendar?
     
-    public var loadingComponent: UIView! = {
+    var loadingComponent: UIActivityIndicatorView = {
         let aIV = UIActivityIndicatorView(style: .medium)
         aIV.translatesAutoresizingMaskIntoConstraints = false
         aIV.hidesWhenStopped = true
         return aIV
     }()
     
-    var isLoading: String?
-    
-    public init() {
+    init() {
         super.init(frame: .zero)
         backgroundColor = .systemBackground.withAlphaComponent(0.5)
         translatesAutoresizingMaskIntoConstraints = false
         isHidden = true
+        
+        
     }
     
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(calendar: VCalendar) {
-        if let aIV = loadingComponent as? UIActivityIndicatorView {
-            addSubview(aIV)
-            NSLayoutConstraint.activate([
-                aIV.centerXAnchor.constraint(equalTo: centerXAnchor),
-                aIV.centerYAnchor.constraint(equalTo: centerYAnchor),
-                aIV.widthAnchor.constraint(equalToConstant: 50),
-                aIV.heightAnchor.constraint(equalToConstant: 50),
-            ])
-        }
+    func configure(calendar: some VCalendar) {
+        addSubview(loadingComponent)
+        NSLayoutConstraint.activate([
+            loadingComponent.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loadingComponent.centerYAnchor.constraint(equalTo: centerYAnchor),
+            loadingComponent.widthAnchor.constraint(equalToConstant: 50),
+            loadingComponent.heightAnchor.constraint(equalToConstant: 50),
+        ])
         
         self.vc = calendar
         calendar.view.addSubview(self)
@@ -50,16 +52,12 @@ class VCLoadingView: UIView {
         ])
     }
     
-    open func setLoading(title: String?) {
-        let aIV = loadingComponent as? UIActivityIndicatorView
-        
-        if let title, !title.isEmpty {
-            aIV?.startAnimating()
-            self.isLoading = title
+    func setLoading(value: Bool) {
+        if value {
+            loadingComponent.startAnimating()
             self.isHidden = false
         } else {
-            aIV?.stopAnimating()
-            self.isLoading = nil
+            loadingComponent.stopAnimating()
             self.isHidden = true
         }
     }

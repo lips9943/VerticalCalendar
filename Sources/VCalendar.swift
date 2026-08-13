@@ -12,7 +12,7 @@ open class VCalendar: UICollectionViewController {
     private var isResetScroll: Bool = false
     private var yearview: VCYearView!
     private var weekdayView: VCWeekDayView!
-    private var loadingView = VCLoadingView()
+    private var loadingView: UIView & LoadingSet = VCLoadingView()
     
     
     
@@ -138,20 +138,24 @@ extension VCalendar {
 
 // MARK: - Managing Loading
 extension VCalendar {
-    public var isLoading: String? {
-        get { loadingView.isLoading }
-        set { loadingView.setLoading(title: newValue) }
+    public var isLoading: Bool {
+        get { !loadingView.isHidden }
+        set { loadingView.setLoading(value: newValue) }
     }
     
-    public func setLoadingView(_ view: UIView) {
-        loadingView.loadingComponent?.removeFromSuperview()
-        loadingView.loadingComponent = view
+    public func setLoadingView(_ view: UIView & LoadingSet) {
+        loadingView.removeFromSuperview()
         
-        loadingView.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(view)
         NSLayoutConstraint.activate([
-            view.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
-            view.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+            view.topAnchor.constraint(equalTo: self.view.topAnchor),
+            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])
+        loadingView = view
     }
     
     private func setActivityIndicator() {
