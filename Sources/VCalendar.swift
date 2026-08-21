@@ -11,8 +11,8 @@ import Hero
 open class VCalendar: UICollectionViewController {
     private var isResetScroll: Bool = false
     private var yearview: VCYearView!
-    public private(set) var weekdayView: VCWeekDayView!
     public private(set) var loadingView: VCLoadingView!
+    public var delegateForCell: CellConfigureDelegate?
     
     public typealias ViewModel = any VCViewModel
     open var viewModel: ViewModel
@@ -21,7 +21,6 @@ open class VCalendar: UICollectionViewController {
         self.viewModel = viewModel
         super.init(collectionViewLayout: Self.createCompositionalLayout())
         self.yearview = VCYearView()
-        self.weekdayView = VCWeekDayView()
         self.loadingView = VCLoadingView()
     }
     
@@ -32,7 +31,6 @@ open class VCalendar: UICollectionViewController {
         self.collectionView.register(VCDayCell.self, forCellWithReuseIdentifier: VCDayCell.reuseIdentifier)
         self.collectionView.register(VCMonthReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: VCMonthReusableView.identifier)
         setDefaultYearView()
-        setDefaultWeekdayView()
         setActivityIndicator()
         collectionView.showsVerticalScrollIndicator = false
         collectionView.scrollsToTop = false
@@ -71,6 +69,9 @@ extension VCalendar {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VCDayCell.reuseIdentifier, for: indexPath) as? VCDayCell else { return UICollectionViewCell() }
         let day = viewModel.calendars[indexPath.section].days[indexPath.item]
         cell.configure(day: day)
+        cell.configureToday { size, v in
+            delegateForCell?.configureTodayCell(cell, canTodayViewConfigure: v, preloadSize: size)
+        }
         return cell
     }
     
@@ -110,29 +111,6 @@ extension VCalendar {
         if indexPath.row == halfOfDayIndex {
             self.yearview.update(with: calendar.month.date)
         }
-    }
-}
-
-// MARK: - WeekView Configuration
-extension VCalendar {
-    private func setDefaultWeekdayView() {
-        view.addSubview(weekdayView)
-        weekdayView.configure(with: view)
-    }
-    
-    public func isWeekdayActive(_ active: Bool) {
-        if active {
-            guard weekdayView == nil else { return }
-            setDefaultWeekdayView()
-        } else {
-            guard weekdayView != nil else { return }
-            weekdayView.removeFromSuperview()
-        }
-    }
-    
-    public func weekDayViewBackground(color: UIColor) {
-        guard color != weekdayView.backgroundColor else { return }
-        weekdayView.backgroundColor = color
     }
 }
 

@@ -38,6 +38,11 @@ open class VCDayCell: UICollectionViewCell {
         label.configure(with: day)
         topBorder.configure(with: day)
     }
+    
+    public func configureToday(view: (CGSize, VCDayCellLabel) -> Void) {
+        let size = CGSize(width: self.bounds.width, height: self.bounds.height * 0.26)
+        view(size, label)
+    }
 }
 #endif
 
