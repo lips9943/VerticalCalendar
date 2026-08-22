@@ -9,7 +9,10 @@ import UIKit
 #if os(iOS)
 open class VCMonthReusableView: UICollectionReusableView {
     public static let identifier: String = "VCMonthReusableView"
-    static var monthLabelColor: UIColor = .systemGray
+    public static var font: UIFont?
+    public static var currentMonthFont: UIFont?
+    public static var monthLabelColor: UIColor?
+    public static var currentMonthLabelColor: UIColor?
     
     private let stackView = UIStackView()
     private var slotLabels: [UILabel] = []
@@ -21,7 +24,21 @@ open class VCMonthReusableView: UICollectionReusableView {
     
     open override func prepareForReuse() {
         super.prepareForReuse()
-        slotLabels.forEach { $0.text = nil }
+        let device = UIDevice.current.userInterfaceIdiom
+        slotLabels.forEach {
+            $0.text = nil
+            $0.textColor = .systemGray
+            
+            if let font = VCMonthReusableView.font {
+                $0.font = font
+            } else if device == .phone {
+                $0.font = UIFont.preferredFont(forTextStyle: .body)
+            } else if device == .pad {
+                $0.font = UIFont.preferredFont(forTextStyle: .title2)
+            } else {
+                $0.font = UIFont.preferredFont(forTextStyle: .body)
+            }
+        }
     }
     
     public required init?(coder: NSCoder) {
@@ -53,15 +70,31 @@ open class VCMonthReusableView: UICollectionReusableView {
     /// Month 모델을 받아 해당 달의 1일의 요일 슬롯에 "\(month.month)월" 텍스트를 표시합니다.
     open func update(with month: any VCMonth) {
         slotLabels[month.weekday(calendar: month.calendar) - 1].text = month.value
+        
+        if let font = VCMonthReusableView.font {
+            slotLabels[month.weekday(calendar: month.calendar) - 1].font = font
+        }
+        
+        if month.isCurrentMonth, let font = VCMonthReusableView.currentMonthFont {
+            slotLabels[month.weekday(calendar: month.calendar) - 1].font = font
+        }
+        
+        if let color = VCMonthReusableView.monthLabelColor {
+            slotLabels[month.weekday(calendar: month.calendar) - 1].textColor = color
+        }
+        
+        if month.isCurrentMonth, let color = VCMonthReusableView.currentMonthLabelColor {
+            slotLabels[month.weekday(calendar: month.calendar) - 1].textColor = color
+        }
     }
     
     private func set(label: inout UILabel) {
-        let device = UIDevice.current.userInterfaceIdiom
-        label.textColor = VCMonthReusableView.monthLabelColor
+        label.textColor = .systemGray
         label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.7
         
+        let device = UIDevice.current.userInterfaceIdiom
         if device == .phone {
             label.font = UIFont.preferredFont(forTextStyle: .body)
         } else if device == .pad {

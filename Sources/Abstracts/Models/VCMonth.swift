@@ -15,6 +15,10 @@ public protocol VCMonth: Equatable {
 public extension VCMonth {
     var month: Int { calendar.component(.month, from: date) }
     
+    var isCurrentMonth: Bool {
+        calendar.isDate(date, equalTo: Date(), toGranularity: .month)
+    }
+    
     var value: String {
         let formatter = DateFormatter()
         formatter.locale = locale

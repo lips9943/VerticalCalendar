@@ -9,7 +9,8 @@ import UIKit
 #if os(iOS)
 public class VCDayCellLabel: UIView {
     let parent: UIView
-    public var dayLabel: UILabel!
+    public static var labelHeight: CGFloat = 0.23
+    public private(set) var dayLabel: UILabel!
     
     init(parent: UIView) {
         self.parent = parent
@@ -83,8 +84,8 @@ public class VCDayCellLabel: UIView {
         NSLayoutConstraint.activate([
             self.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
             self.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
-            self.topAnchor.constraint(equalTo: parent.topAnchor/*, constant: screenSize.height * 0.2*/),
-            self.heightAnchor.constraint(equalToConstant: parent.frame.height * 0.26),
+            self.topAnchor.constraint(equalTo: parent.topAnchor),
+            self.heightAnchor.constraint(equalToConstant: parent.frame.height * VCDayCellLabel.labelHeight),
             dayLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             dayLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
