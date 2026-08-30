@@ -7,9 +7,12 @@
 
 import UIKit
 
-class VCYearView: UILabel {
+public class VCYearView: UILabel {
     private lazy var date: Date = .now
     private var hideWorkItem: DispatchWorkItem?
+    
+    /// 스크린 height 비례하여 몇 %를 차지하는 것을 기준으로 마진을 설정합니다. 기본 값은 0.03 (3%)
+    public static var topMargin: CGFloat = 0.03
     
     init() {
         super.init(frame: .zero)
@@ -60,7 +63,7 @@ class VCYearView: UILabel {
         superView.addSubview(self)
         NSLayoutConstraint.activate([
             self.leadingAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.leadingAnchor, constant: screenBounds.width * 0.05),
-            self.topAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.topAnchor, constant: screenBounds.height * 0.02),
+            self.topAnchor.constraint(equalTo: superView.safeAreaLayoutGuide.topAnchor, constant: screenBounds.height * Self.topMargin),
         ])
     }
 }

@@ -9,7 +9,15 @@ import UIKit
 #if os(iOS)
 public class VCDayCellLabel: UIView {
     let parent: UIView
+    
+    /// Label View의 높이를 정합니다. 기준은 Superview의 높이가 되고 몇%를 소수점으로 표현하느냐의 따라서 높이가 결정됩니다.
+    /// 기본 값은 0.23(23%)입니다.
     public static var labelHeight: CGFloat = 0.23
+    /// Superview 높이에 비례하여 몇 %를 차지하는 것을 기준으로 Top 마진을 설정합니다. 기본 값은 0.06 (6%)
+    public static var topMargin: CGFloat = 0.06
+    /// Superview 길이에 비례하여 몇 %를 차지하는 것을 기준으로 Horizontal 마진을 설정합니다. 기본 값은 0.01(1%)
+    public static var horizontalMargin: CGFloat = 0.01
+    
     public private(set) var dayLabel: UILabel!
     
     init(parent: UIView) {
@@ -82,9 +90,9 @@ public class VCDayCellLabel: UIView {
     
     private func setLayout() {
         NSLayoutConstraint.activate([
-            self.leadingAnchor.constraint(equalTo: parent.leadingAnchor),
-            self.trailingAnchor.constraint(equalTo: parent.trailingAnchor),
-            self.topAnchor.constraint(equalTo: parent.topAnchor),
+            self.leadingAnchor.constraint(equalTo: parent.leadingAnchor, constant: parent.frame.width * Self.horizontalMargin),
+            self.trailingAnchor.constraint(equalTo: parent.trailingAnchor, constant: -(parent.frame.width * Self.horizontalMargin)),
+            self.topAnchor.constraint(equalTo: parent.topAnchor, constant: parent.frame.height * Self.topMargin),
             self.heightAnchor.constraint(equalToConstant: parent.frame.height * VCDayCellLabel.labelHeight),
             dayLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             dayLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
